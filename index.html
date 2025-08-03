@@ -75,69 +75,82 @@
 </head>
 <body>
     <h1>สั่งคำอวยพรวันเกิด!</h1>
-    <div class="menu">
-        <h2>เมนูคำอวยพร</h2>
-        <div class="menu-item">
-            <label>
-                <input type="radio" name="wish" value="ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!">
-                ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!
-            </label>
+    
+    <form id="wishForm" method="post" action="https://script.google.com/macros/s/AKfycbyCXhI5Q8RfDKtgiDNsOcrJrFp5w_5L2FYj43ygB1poV19kd9bAiZ8mwUuVwEHdPgka/exec">
+        <div class="menu">
+            <h2>เมนูคำอวยพร</h2>
+            <div class="menu-item">
+                <label>
+                    <input type="radio" name="wish" value="ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!">
+                    ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!
+                </label>
+            </div>
+            <div class="menu-item">
+                <label>
+                    <input type="radio" name="wish" value="สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!">
+                    สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!
+                </label>
+            </div>
+            <div class="menu-item">
+                <label>
+                    <input type="radio" name="wish" value="แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!">
+                    แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!
+                </label>
+            </div>
+            <div class="menu-item">
+                <label>
+                    <input type="radio" name="wish" value="สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!">
+                    สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!
+                </label>
+            </div>
         </div>
-        <div class="menu-item">
-            <label>
-                <input type="radio" name="wish" value="สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!">
-                สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!
-            </label>
+    
+        <div class="custom-wish">
+            <h2>หรือพิมพ์คำอวยพรเอง</h2>
+            <textarea id="customWish" name="customWish" placeholder="พิมพ์คำอวยพรของคุณที่นี่"></textarea>
         </div>
-        <div class="menu-item">
-            <label>
-                <input type="radio" name="wish" value="แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!">
-                แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!
-            </label>
+    
+        <div class="sender-info">
+            <h2>ลงชื่อผู้อวยพร</h2>
+            <input type="text" id="senderName" name="sender" placeholder="ชื่อของคุณ">
         </div>
-        <div class="menu-item">
-            <label>
-                <input type="radio" name="wish" value="สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!">
-                สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!
-            </label>
-        </div>
-    </div>
-
-    <div class="custom-wish">
-        <h2>หรือพิมพ์คำอวยพรเอง</h2>
-        <textarea id="customWish" placeholder="พิมพ์คำอวยพรของคุณที่นี่"></textarea>
-    </div>
-
-    <div class="sender-info">
-        <h2>ลงชื่อผู้อวยพร</h2>
-        <input type="text" id="senderName" placeholder="ชื่อของคุณ">
-    </div>
-
-    <button onclick="generateCard()">ส่งคำอวยพร!</button>
-
+        
+        <button type="submit">ส่งคำอวยพร!</button>
+    </form>
+    
     <script>
-        function generateCard() {
+        const form = document.getElementById('wishForm');
+        form.addEventListener('submit', function(e) {
             const selectedWish = document.querySelector('input[name="wish"]:checked');
             const customWishText = document.getElementById('customWish').value;
             const sender = document.getElementById('senderName').value;
             let finalWish = '';
-
+    
             if (selectedWish) {
                 finalWish = selectedWish.value;
             } else if (customWishText.trim() !== '') {
                 finalWish = customWishText;
             } else {
                 alert('กรุณาเลือกคำอวยพร หรือพิมพ์คำอวยพรด้วยตัวเอง');
+                e.preventDefault();
                 return;
             }
-
+    
             if (sender.trim() === '') {
                 alert('กรุณาลงชื่อผู้อวยพร');
+                e.preventDefault();
                 return;
             }
+    
+            const wishInput = document.createElement('input');
+            wishInput.type = 'hidden';
+            wishInput.name = 'wish';
+            wishInput.value = finalWish;
+            form.appendChild(wishInput);
 
-            window.location.href = `greeting_card.html?wish=${encodeURIComponent(finalWish)}&sender=${encodeURIComponent(sender)}`;
-        }
+            // ลบ input ที่ไม่จำเป็นออกก่อนส่งฟอร์ม เพื่อไม่ให้เกิดข้อผิดพลาด
+            document.getElementById('customWish').name = '';
+        });
     </script>
 </body>
 </html>
