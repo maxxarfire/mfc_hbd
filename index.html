@@ -81,25 +81,25 @@
             <h2>เมนูคำอวยพร</h2>
             <div class="menu-item">
                 <label>
-                    <input type="radio" name="wish" value="ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!">
+                    <input type="radio" name="selectedWish" value="ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!">
                     ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!
                 </label>
             </div>
             <div class="menu-item">
                 <label>
-                    <input type="radio" name="wish" value="สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!">
+                    <input type="radio" name="selectedWish" value="สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!">
                     สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!
                 </label>
             </div>
             <div class="menu-item">
                 <label>
-                    <input type="radio" name="wish" value="แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!">
+                    <input type="radio" name="selectedWish" value="แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!">
                     แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!
                 </label>
             </div>
             <div class="menu-item">
                 <label>
-                    <input type="radio" name="wish" value="สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!">
+                    <input type="radio" name="selectedWish" value="สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!">
                     สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!
                 </label>
             </div>
@@ -121,17 +121,12 @@
     <script>
         const form = document.getElementById('wishForm');
         form.addEventListener('submit', function(e) {
-            const selectedWish = document.querySelector('input[name="wish"]:checked');
+            const selectedWish = document.querySelector('input[name="selectedWish"]:checked');
             const customWishText = document.getElementById('customWish').value;
             const sender = document.getElementById('senderName').value;
             
-            let finalWish = '';
-    
-            if (selectedWish) {
-                finalWish = selectedWish.value;
-            } else if (customWishText.trim() !== '') {
-                finalWish = customWishText;
-            } else {
+            // ตรวจสอบว่ามีการกรอกข้อมูลหรือไม่
+            if (!selectedWish && customWishText.trim() === '') {
                 alert('กรุณาเลือกคำอวยพร หรือพิมพ์คำอวยพรด้วยตัวเอง');
                 e.preventDefault();
                 return;
@@ -142,20 +137,6 @@
                 e.preventDefault();
                 return;
             }
-            
-            // ใช้ค่าจาก finalWish ในการส่ง
-            const wishInput = document.createElement('input');
-            wishInput.type = 'hidden';
-            wishInput.name = 'wish';
-            wishInput.value = finalWish;
-            form.appendChild(wishInput);
-
-            // ลบชื่อของ radio buttons ออก
-            document.querySelectorAll('input[name="wish"]').forEach(input => {
-                input.name = '';
-            });
-            // ลบชื่อของ textarea ออก เพื่อไม่ให้เกิดการส่งข้อมูลซ้ำซ้อน
-            document.getElementById('customWish').name = '';
         });
     </script>
 </body>
