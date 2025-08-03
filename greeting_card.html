@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            background-color: #ede7f6; /* สีพื้นหลังโทนม่วงอ่อน */
+            background: linear-gradient(135deg, #a864d3, #6a0dad); /* พื้นหลังไล่เฉดสีม่วง */
             margin: 0;
             padding: 20px;
             display: flex;
@@ -21,74 +21,99 @@
             overflow: hidden;
         }
         .greeting-card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.9); /* การ์ดโปร่งแสงเล็กน้อย */
+            border-radius: 20px; /* ขอบโค้งมนมากขึ้น */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* เงาที่ดูมีมิติ */
+            padding: 50px;
             width: 80%;
-            max-width: 500px;
+            max-width: 600px;
             position: relative;
             z-index: 10;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         h1 {
-            color: #8a2be2; /* สีม่วง */
+            color: #6a0dad; /* สีม่วงเข้ม */
             margin-bottom: 20px;
-            font-size: 2.5rem;
+            font-size: 3rem;
+        }
+        .birthday-girl-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; /* ทำให้รูปเป็นวงกลม */
+            object-fit: cover; /* ครอบรูปให้เต็มวงกลม */
+            border: 5px solid #fff; /* ขอบสีขาว */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
         .wish-text {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #333;
-            line-height: 1.6;
+            line-height: 1.8;
             margin-bottom: 30px;
             white-space: pre-wrap;
         }
         .sender {
             font-style: italic;
-            color: #777;
-            font-size: 1.1rem;
+            color: #888;
+            font-size: 1.2rem;
             margin-bottom: 30px;
         }
-        .balloon {
-            position: absolute;
-            width: 50px;
-            height: 65px;
-            background-color: #b19cd9; /* สีม่วงลูกโป่ง */
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            z-index: -1;
+        .button-container {
+            margin-top: 30px;
         }
-        .balloon:nth-child(1) { top: 20px; left: 20px; background-color: #7b68ee; } /* สีม่วงเข้ม */
-        .balloon:nth-child(2) { bottom: 30px; right: 20px; background-color: #9370db; } /* สีม่วงกลาง */
-        .balloon:nth-child(3) { top: 50px; right: 50px; background-color: #ba55d3; } /* สีม่วงชมพู */
-        .balloon:nth-child(4) { bottom: 10px; left: 60px; background-color: #8a2be2; } /* สีม่วงหลัก */
-
         .history-button {
             display: inline-block;
-            padding: 10px 20px;
-            font-size: 1rem;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             color: white;
-            background-color: #8a2be2; /* สีม่วง */
-            border-radius: 5px;
+            background-color: #8a2be2;
+            border-radius: 50px; /* ปุ่มโค้งมน */
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         .history-button:hover {
             background-color: #6a0dad;
+            transform: translateY(-2px);
+        }
+
+        .emoji-decoration {
+            font-size: 3rem;
+            animation: pop 1s ease-in-out infinite alternate;
+        }
+        .emoji-decoration.left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .emoji-decoration.right {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+        @keyframes pop {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
     </style>
 </head>
 <body>
     <div class="greeting-card">
-        <h1>สุขสันต์วันเกิด!</h1>
+        <span class="emoji-decoration left">🎉</span>
+        <span class="emoji-decoration right">🎁</span>
+        <img src="https://i.postimg.cc/vZnd5ksk/mobile01.png" alt="รูปภาพโมบาย" class="birthday-girl-photo">
+        <h1>สุขสันต์วันเกิดนะ โมบาย!</h1>
         <p class="wish-text" id="wishDisplay"></p>
         <p class="sender" id="senderDisplay"></p>
         
-        <a href="history.html" class="history-button">ดูประวัติคำอวยพรทั้งหมด</a>
+        <div class="button-container">
+            <a href="history.html" class="history-button">ดูประวัติคำอวยพรทั้งหมด</a>
+        </div>
     </div>
-    <div class="balloon"></div>
-    <div class="balloon"></div>
-    <div class="balloon"></div>
-    <div class="balloon"></div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
