@@ -46,6 +46,7 @@
             font-style: italic;
             color: #777;
             font-size: 1.1rem;
+            margin-bottom: 30px; /* เพิ่ม margin เพื่อให้มีระยะห่างจากปุ่ม */
         }
         .balloon {
             position: absolute;
@@ -59,6 +60,22 @@
         .balloon:nth-child(2) { bottom: 30px; right: 20px; background-color: #3498db; }
         .balloon:nth-child(3) { top: 50px; right: 50px; background-color: #9b59b6; }
         .balloon:nth-child(4) { bottom: 10px; left: 60px; background-color: #2ecc71; }
+
+        /* เพิ่ม style สำหรับปุ่ม */
+        .history-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #556080;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .history-button:hover {
+            background-color: #3a425b;
+        }
     </style>
 </head>
 <body>
@@ -66,6 +83,8 @@
         <h1>สุขสันต์วันเกิด!</h1>
         <p class="wish-text" id="wishDisplay"></p>
         <p class="sender" id="senderDisplay"></p>
+        
+        <a href="history.html" class="history-button">ดูประวัติคำอวยพรทั้งหมด</a>
     </div>
     <div class="balloon"></div>
     <div class="balloon"></div>
