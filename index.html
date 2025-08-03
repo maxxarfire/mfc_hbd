@@ -124,6 +124,7 @@
             const selectedWish = document.querySelector('input[name="wish"]:checked');
             const customWishText = document.getElementById('customWish').value;
             const sender = document.getElementById('senderName').value;
+            
             let finalWish = '';
     
             if (selectedWish) {
@@ -141,14 +142,19 @@
                 e.preventDefault();
                 return;
             }
-    
+            
+            // ใช้ค่าจาก finalWish ในการส่ง
             const wishInput = document.createElement('input');
             wishInput.type = 'hidden';
             wishInput.name = 'wish';
             wishInput.value = finalWish;
             form.appendChild(wishInput);
 
-            // ลบ input ที่ไม่จำเป็นออกก่อนส่งฟอร์ม เพื่อไม่ให้เกิดข้อผิดพลาด
+            // ลบชื่อของ radio buttons ออก
+            document.querySelectorAll('input[name="wish"]').forEach(input => {
+                input.name = '';
+            });
+            // ลบชื่อของ textarea ออก เพื่อไม่ให้เกิดการส่งข้อมูลซ้ำซ้อน
             document.getElementById('customWish').name = '';
         });
     </script>
