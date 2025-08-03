@@ -18,7 +18,7 @@
             align-items: center;
         }
         .banner {
-            background-color: #e4002b;
+            background-color: #8a2be2; /* สีม่วง */
             color: white;
             padding: 20px;
             text-align: center;
@@ -96,7 +96,7 @@
             font-size: 1rem;
         }
         button {
-            background-color: #e4002b;
+            background-color: #8a2be2; /* สีม่วง */
             color: white;
             border: none;
             padding: 10px 20px;
@@ -107,7 +107,7 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #c80024;
+            background-color: #6a0dad;
         }
     </style>
 </head>
@@ -173,7 +173,6 @@
                 return;
             }
 
-            // สร้าง input ที่ซ่อนไว้เพื่อส่งข้อมูลที่รวมกันแล้ว
             const combinedWishInput = document.createElement('input');
             combinedWishInput.type = 'hidden';
             combinedWishInput.name = 'combinedWish';
@@ -192,7 +191,6 @@
             combinedWishInput.value = finalWish;
             form.appendChild(combinedWishInput);
             
-            // ลบชื่อของ checkbox และ textarea ออกก่อนส่งฟอร์ม
             document.querySelectorAll('input[name="selectedWish"]').forEach(checkbox => {
                 checkbox.name = '';
             });

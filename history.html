@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #ede7f6; /* สีพื้นหลังโทนม่วงอ่อน */
             margin: 0;
             padding: 20px;
             display: flex;
@@ -27,7 +27,7 @@
             max-width: 800px;
         }
         h1 {
-            color: #333;
+            color: #8a2be2; /* สีม่วง */
             margin-bottom: 20px;
         }
         .wish-entry {
@@ -77,6 +77,10 @@
                     `;
                     historyList.appendChild(entryDiv);
                 });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                historyList.innerHTML = '<p>ไม่สามารถดึงข้อมูลประวัติได้ กรุณาลองใหม่อีกครั้งในภายหลัง</p>';
             });
     </script>
 </body>

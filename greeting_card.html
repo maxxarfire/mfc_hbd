@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            background-color: #e9ecef;
+            background-color: #ede7f6; /* สีพื้นหลังโทนม่วงอ่อน */
             margin: 0;
             padding: 20px;
             display: flex;
@@ -31,7 +31,7 @@
             z-index: 10;
         }
         h1 {
-            color: #ff6b6b;
+            color: #8a2be2; /* สีม่วง */
             margin-bottom: 20px;
             font-size: 2.5rem;
         }
@@ -46,35 +46,34 @@
             font-style: italic;
             color: #777;
             font-size: 1.1rem;
-            margin-bottom: 30px; /* เพิ่ม margin เพื่อให้มีระยะห่างจากปุ่ม */
+            margin-bottom: 30px;
         }
         .balloon {
             position: absolute;
             width: 50px;
             height: 65px;
-            background-color: #f1c40f;
+            background-color: #b19cd9; /* สีม่วงลูกโป่ง */
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             z-index: -1;
         }
-        .balloon:nth-child(1) { top: 20px; left: 20px; background-color: #e74c3c; }
-        .balloon:nth-child(2) { bottom: 30px; right: 20px; background-color: #3498db; }
-        .balloon:nth-child(3) { top: 50px; right: 50px; background-color: #9b59b6; }
-        .balloon:nth-child(4) { bottom: 10px; left: 60px; background-color: #2ecc71; }
+        .balloon:nth-child(1) { top: 20px; left: 20px; background-color: #7b68ee; } /* สีม่วงเข้ม */
+        .balloon:nth-child(2) { bottom: 30px; right: 20px; background-color: #9370db; } /* สีม่วงกลาง */
+        .balloon:nth-child(3) { top: 50px; right: 50px; background-color: #ba55d3; } /* สีม่วงชมพู */
+        .balloon:nth-child(4) { bottom: 10px; left: 60px; background-color: #8a2be2; } /* สีม่วงหลัก */
 
-        /* เพิ่ม style สำหรับปุ่ม */
         .history-button {
             display: inline-block;
             padding: 10px 20px;
             font-size: 1rem;
             color: white;
-            background-color: #556080;
+            background-color: #8a2be2; /* สีม่วง */
             border-radius: 5px;
             text-decoration: none;
             transition: background-color 0.3s ease;
         }
 
         .history-button:hover {
-            background-color: #3a425b;
+            background-color: #6a0dad;
         }
     </style>
 </head>
