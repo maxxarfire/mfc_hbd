@@ -10,46 +10,83 @@
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+        }
+        .banner {
+            background-color: #e4002b;
+            color: white;
+            padding: 20px;
             text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .banner h1 {
+            margin: 0;
+            font-size: 2rem;
         }
         .menu {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 600px;
-        }
-        h1 {
-            color: #333;
+            width: 90%;
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
             margin-bottom: 20px;
         }
         .menu-item {
+            text-align: center;
             padding: 10px;
-            border-bottom: 1px solid #eee;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, background-color 0.2s;
         }
-        .menu-item:last-child {
-            border-bottom: none;
+        .menu-item:hover {
+            transform: scale(1.05);
         }
-        label {
-            display: block;
+        .menu-item input[type="checkbox"]:checked + label {
+            background-color: #f0f0f0;
+        }
+        .menu-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
             margin-bottom: 5px;
+        }
+        .menu-item label {
+            display: block;
             font-weight: bold;
-            color: #555;
+            color: #333;
             cursor: pointer;
         }
-        input[type="radio"] {
-            margin-right: 10px;
+        input[type="checkbox"] {
+            display: none;
         }
-        input, textarea, button {
-            width: 100%;
+        .custom-wish, .sender-info {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+        .custom-wish h2, .sender-info h2 {
+            color: #555;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        textarea, input[type="text"] {
+            width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
@@ -58,85 +95,108 @@
             font-family: 'Kanit', sans-serif;
             font-size: 1rem;
         }
-        textarea {
-            resize: vertical;
-        }
         button {
-            background-color: #007bff;
+            background-color: #e4002b;
             color: white;
             border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.2rem;
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #c80024;
         }
     </style>
 </head>
 <body>
-    <h1>สั่งคำอวยพรวันเกิด!</h1>
-    
+    <div class="banner">
+        <h1>โปรโมชั่นพิเศษ: สั่งคำอวยพรวันเกิดแสนอร่อย!</h1>
+    </div>
+
     <form id="wishForm" method="post" action="https://script.google.com/macros/s/AKfycbyCXhI5Q8RfDKtgiDNsOcrJrFp5w_5L2FYj43ygB1poV19kd9bAiZ8mwUuVwEHdPgka/exec">
         <div class="menu">
-            <h2>เมนูคำอวยพร</h2>
             <div class="menu-item">
-                <label>
-                    <input type="radio" name="selectedWish" value="ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!">
-                    ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!
-                </label>
+                <input type="checkbox" id="wish1" name="selectedWish" value="มีความสุข">
+                <label for="wish1"><img src="https://via.placeholder.com/150/FFC0CB/000000?Text=ไก่ทอด1"><br>มีความสุข</label>
             </div>
             <div class="menu-item">
-                <label>
-                    <input type="radio" name="selectedWish" value="สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!">
-                    สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!
-                </label>
+                <input type="checkbox" id="wish2" name="selectedWish" value="ร่างกายแข็งแรง">
+                <label for="wish2"><img src="https://via.placeholder.com/150/ADD8E6/000000?Text=ไก่ทอด2"><br>ร่างกายแข็งแรง</label>
             </div>
             <div class="menu-item">
-                <label>
-                    <input type="radio" name="selectedWish" value="แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!">
-                    แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!
-                </label>
+                <input type="checkbox" id="wish3" name="selectedWish" value="ร่ำรวย !!">
+                <label for="wish3"><img src="https://via.placeholder.com/150/90EE90/000000?Text=ไก่ทอด3"><br>ร่ำรวย !!</label>
             </div>
             <div class="menu-item">
-                <label>
-                    <input type="radio" name="selectedWish" value="สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!">
-                    สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!
-                </label>
+                <input type="checkbox" id="wish4" name="selectedWish" value="เป็นเซ็นเตอร์">
+                <label for="wish4"><img src="https://via.placeholder.com/150/FFA07A/000000?Text=ไก่ทอด4"><br>เป็นเซ็นเตอร์</label>
+            </div>
+            <div class="menu-item">
+                <input type="checkbox" id="wish5" name="selectedWish" value="ส๊วย!!">
+                <label for="wish5"><img src="https://via.placeholder.com/150/DA70D6/000000?Text=ไก่ทอด5"><br>ส๊วย!!</label>
             </div>
         </div>
-    
+
         <div class="custom-wish">
-            <h2>หรือพิมพ์คำอวยพรเอง</h2>
-            <textarea id="customWish" name="customWish" placeholder="พิมพ์คำอวยพรของคุณที่นี่"></textarea>
+            <h2>หรือเพิ่มเมนูพิเศษ</h2>
+            <textarea id="customWish" name="customWish" placeholder="พิมพ์คำอวยพรเพิ่มเติมของคุณที่นี่"></textarea>
         </div>
-    
+
         <div class="sender-info">
-            <h2>ลงชื่อผู้อวยพร</h2>
+            <h2>สั่งโดยใครครับ? (ลงชื่อ)</h2>
             <input type="text" id="senderName" name="sender" placeholder="ชื่อของคุณ">
         </div>
-        
-        <button type="submit">ส่งคำอวยพร!</button>
+
+        <button type="submit">ส่งออเดอร์คำอวยพร!</button>
     </form>
-    
+
     <script>
         const form = document.getElementById('wishForm');
         form.addEventListener('submit', function(e) {
-            const selectedWish = document.querySelector('input[name="selectedWish"]:checked');
+            const selectedWishes = Array.from(document.querySelectorAll('input[name="selectedWish"]:checked'))
+                                      .map(checkbox => checkbox.value);
             const customWishText = document.getElementById('customWish').value;
+
+            if (selectedWishes.length === 0 && customWishText.trim() === '') {
+                alert('กรุณาเลือกคำอวยพร หรือเพิ่มเมนูพิเศษ');
+                e.preventDefault();
+                return;
+            }
+
             const sender = document.getElementById('senderName').value;
-            
-            // ตรวจสอบว่ามีการกรอกข้อมูลหรือไม่
-            if (!selectedWish && customWishText.trim() === '') {
-                alert('กรุณาเลือกคำอวยพร หรือพิมพ์คำอวยพรด้วยตัวเอง');
-                e.preventDefault();
-                return;
-            }
-    
             if (sender.trim() === '') {
-                alert('กรุณาลงชื่อผู้อวยพร');
+                alert('กรุณาลงชื่อด้วยนะครับ');
                 e.preventDefault();
                 return;
             }
+
+            // สร้าง input ที่ซ่อนไว้เพื่อส่งข้อมูลที่รวมกันแล้ว
+            const combinedWishInput = document.createElement('input');
+            combinedWishInput.type = 'hidden';
+            combinedWishInput.name = 'combinedWish';
+            
+            let finalWish = '';
+            if (selectedWishes.length > 0) {
+                finalWish += selectedWishes.join(' ');
+            }
+            if (customWishText.trim() !== '') {
+                if (finalWish !== '') {
+                    finalWish += '\n\n';
+                }
+                finalWish += customWishText;
+            }
+            
+            combinedWishInput.value = finalWish;
+            form.appendChild(combinedWishInput);
+            
+            // ลบชื่อของ checkbox และ textarea ออกก่อนส่งฟอร์ม
+            document.querySelectorAll('input[name="selectedWish"]').forEach(checkbox => {
+                checkbox.name = '';
+            });
+            document.getElementById('customWish').name = '';
         });
     </script>
 </body>
