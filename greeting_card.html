@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การ์ดอวยพรวันเกิด</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+        .greeting-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 80%;
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        .wish-text {
+            font-size: 1.5rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            white-space: pre-wrap;
+        }
+        .sender {
+            font-style: italic;
+            color: #777;
+            font-size: 1.1rem;
+        }
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 65px;
+            background-color: #f1c40f;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            z-index: -1;
+        }
+        .balloon:nth-child(1) { top: 20px; left: 20px; background-color: #e74c3c; }
+        .balloon:nth-child(2) { bottom: 30px; right: 20px; background-color: #3498db; }
+        .balloon:nth-child(3) { top: 50px; right: 50px; background-color: #9b59b6; }
+        .balloon:nth-child(4) { bottom: 10px; left: 60px; background-color: #2ecc71; }
+    </style>
+</head>
+<body>
+    <div class="greeting-card">
+        <h1>สุขสันต์วันเกิด!</h1>
+        <p class="wish-text" id="wishDisplay"></p>
+        <p class="sender" id="senderDisplay"></p>
+    </div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const wish = decodeURIComponent(urlParams.get('wish'));
+        const sender = decodeURIComponent(urlParams.get('sender'));
+
+        document.getElementById('wishDisplay').textContent = wish;
+        document.getElementById('senderDisplay').textContent = `จาก: ${sender}`;
+    </script>
+</body>
+</html>

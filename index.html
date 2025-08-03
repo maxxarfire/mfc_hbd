@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สั่งคำอวยพรวันเกิด!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+        .menu {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .menu-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            font-size: 1rem;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>สั่งคำอวยพรวันเกิด!</h1>
+    <div class="menu">
+        <h2>เมนูคำอวยพร</h2>
+        <div class="menu-item">
+            <label>
+                <input type="radio" name="wish" value="ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!">
+                ขอให้มีความสุขมากๆ สุขภาพแข็งแรง ร่ำรวยๆ นะ!
+            </label>
+        </div>
+        <div class="menu-item">
+            <label>
+                <input type="radio" name="wish" value="สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!">
+                สุขสันต์วันเกิด! ปีนี้ขอให้เป็นปีที่ดีที่สุดเลยนะ!
+            </label>
+        </div>
+        <div class="menu-item">
+            <label>
+                <input type="radio" name="wish" value="แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!">
+                แฮปปี้เบิร์ธเดย์! ขอให้ทุกความปรารถนาเป็นจริง!
+            </label>
+        </div>
+        <div class="menu-item">
+            <label>
+                <input type="radio" name="wish" value="สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!">
+                สุขเกิดวัน! ขอให้มีแต่สิ่งดีๆ เข้ามาในชีวิตนะ!
+            </label>
+        </div>
+    </div>
+
+    <div class="custom-wish">
+        <h2>หรือพิมพ์คำอวยพรเอง</h2>
+        <textarea id="customWish" placeholder="พิมพ์คำอวยพรของคุณที่นี่"></textarea>
+    </div>
+
+    <div class="sender-info">
+        <h2>ลงชื่อผู้อวยพร</h2>
+        <input type="text" id="senderName" placeholder="ชื่อของคุณ">
+    </div>
+
+    <button onclick="generateCard()">ส่งคำอวยพร!</button>
+
+    <script>
+        function generateCard() {
+            const selectedWish = document.querySelector('input[name="wish"]:checked');
+            const customWishText = document.getElementById('customWish').value;
+            const sender = document.getElementById('senderName').value;
+            let finalWish = '';
+
+            if (selectedWish) {
+                finalWish = selectedWish.value;
+            } else if (customWishText.trim() !== '') {
+                finalWish = customWishText;
+            } else {
+                alert('กรุณาเลือกคำอวยพร หรือพิมพ์คำอวยพรด้วยตัวเอง');
+                return;
+            }
+
+            if (sender.trim() === '') {
+                alert('กรุณาลงชื่อผู้อวยพร');
+                return;
+            }
+
+            window.location.href = `greeting_card.html?wish=${encodeURIComponent(finalWish)}&sender=${encodeURIComponent(sender)}`;
+        }
+    </script>
+</body>
+</html>
