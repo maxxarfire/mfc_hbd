@@ -57,7 +57,7 @@
             background-color: #f0f0f0;
         }
         .menu-item img {
-            width: 100%; /* แก้ไข: ทำให้รูปภาพเต็มความกว้างของคอนเทนเนอร์ */
+            width: 100%;
             height: auto;
             border-radius: 5px;
             margin-bottom: 5px;
@@ -110,13 +110,18 @@
             background-color: #6a0dad;
         }
 
-        /* เพิ่ม Media Query สำหรับหน้าจอขนาดเล็ก */
+        /* ปรับปรุง Responsive Design สำหรับหน้าจอขนาดเล็ก */
         @media (max-width: 600px) {
             .banner h1 {
-                font-size: 1.5rem; /* ปรับขนาดฟอนต์หัวข้อให้เล็กลง */
+                font-size: 1.5rem;
             }
             .menu {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* ปรับขนาด grid ให้เล็กลง */
+                /* แก้ไขตรงนี้: บังคับให้เมนูจัดเรียงเป็น 1 คอลัมน์ */
+                grid-template-columns: 1fr;
+            }
+            .menu-item {
+                /* ทำให้แต่ละเมนูเต็มความกว้าง */
+                width: 100%;
             }
         }
     </style>
