@@ -16,26 +16,50 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
+
         .banner {
-            background-color: #8a2be2;
+            background-color: #c000ff; /* สีม่วงของ Banner */
             color: white;
-            padding: 20px;
+            padding: 20px 30px; /* เพิ่ม padding ด้านข้าง */
             text-align: center;
             width: 100%;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex; /* ใช้ flexbox */
+            flex-direction: row; /* จัดเรียงในแนวนอน */
+            justify-content: center; /* จัดกึ่งกลางโลโก้และข้อความ */
+            align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+            gap: 10px; /* ลดระยะห่างระหว่างโลโก้กับข้อความ */
         }
         .banner h1 {
             margin: 0;
             font-size: 2rem;
+            text-align: center; /* จัดข้อความให้อยู่กึ่งกลางภายใน h1 */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* เพิ่มเงาเรืองแสง */
+            white-space: normal; /* อนุญาตให้ข้อความขึ้นบรรทัดใหม่ได้ */
+        }
+        .banner h1 span {
+            display: inline-block; /* ทำให้แต่ละตัวอักษรสามารถเคลื่อนไหวได้ */
+            animation: waveText 1.5s infinite alternate ease-in-out; /* แอนิเมชันคลื่น */
+        }
+        /* เพิ่ม CSS สำหรับส่วนที่ต้องการให้ไม่ตัดบรรทัด */
+        .banner h1 .nowrap-phrase,
+        .banner h1 .fixed-line {
+            white-space: nowrap;
+        }
+        .banner img {
+            max-width: 150px; /* ทำให้โลโก้ใหญ่ขึ้น */
+            height: auto;
         }
         .menu {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 90%;
+            width: 90%; /* กลับไปใช้ width 90% */
             max-width: 800px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -54,7 +78,10 @@
             transform: scale(1.05);
         }
         .menu-item input[type="checkbox"]:checked + label {
-            background-color: #f0f0f0;
+            /* แก้ไขตรงนี้: เพิ่มกรอบสีม่วง */
+            border: 2px solid #c000ff; /* กรอบสีม่วง */
+            background-color: #f0f0f0; /* สีพื้นหลังเมื่อเลือก */
+            padding: 8px; /* ปรับ padding เล็กน้อยเพื่อให้กรอบไม่ทับเนื้อหา */
         }
         .menu-item img {
             width: 100%;
@@ -71,20 +98,7 @@
         input[type="checkbox"] {
             display: none;
         }
-        .custom-wish, .sender-info {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 800px;
-            margin-bottom: 20px;
-        }
-        .custom-wish h2, .sender-info h2 {
-            color: #555;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
+        /* แก้ไข CSS สำหรับ textarea และ input text */
         textarea, input[type="text"] {
             width: calc(100% - 22px);
             padding: 10px;
@@ -95,8 +109,13 @@
             font-family: 'Kanit', sans-serif;
             font-size: 1rem;
         }
+        /* แก้ไข CSS สำหรับปุ่ม */
         button {
-            background-color: #8a2be2;
+            display: block; /* ทำให้ปุ่มเป็น block-level element */
+            margin: 20px auto 0; /* จัดกึ่งกลางแนวนอนและเพิ่ม margin-top */
+            max-width: 300px; /* กำหนดความกว้างสูงสุด */
+            width: 100%; /* ให้ปุ่มขยายเต็มความกว้างได้ถึง max-width */
+            background-color: #c000ff; /* ปรับสีม่วงของปุ่ม */
             color: white;
             border: none;
             padding: 10px 20px;
@@ -107,18 +126,52 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #6a0dad;
+            background-color: #8a00b3; /* ปรับสีม่วงของปุ่มเมื่อ hover */
         }
 
-        /* ปรับปรุง Responsive Design สำหรับหน้าจอขนาดเล็ก */
+        /* Keyframes for wave text animation */
+        @keyframes waveText {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px); /* ยกตัวอักษรขึ้น 5px */
+            }
+        }
+
         @media (max-width: 600px) {
+            .banner {
+                flex-direction: column; /* บนมือถือให้กลับมาเรียงแนวตั้ง */
+                padding: 15px 20px;
+            }
             .banner h1 {
-                font-size: 1.5rem;
+                font-size: 1.5rem; /* ลดขนาดฟอนต์บนมือถือ */
+                text-align: center; /* จัดกึ่งกลางบนมือถือ */
+                white-space: normal; /* อนุญาตให้ข้อความขึ้นบรรทัดใหม่ได้ */
+            }
+            /* ปรับลดขนาดฟอนต์เพิ่มเติมสำหรับหน้าจอที่แคบมาก */
+            @media (max-width: 400px) {
+                .banner h1 {
+                    font-size: 1.2rem;
+                }
+            }
+            .banner h1 span {
+                animation: waveTextMobile 1.5s infinite alternate ease-in-out; /* แอนิเมชันคลื่นสำหรับมือถือ */
+            }
+            @keyframes waveTextMobile {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-3px); /* ยกตัวอักษรขึ้น 3px สำหรับมือถือ */
+                }
+            }
+            .banner img {
+                max-width: 100px; /* ปรับขนาดโลโก้ให้เล็กลงบนมือถือ */
             }
             .menu {
-                /* แก้ไขตรงนี้: ให้เมนูจัดเรียงเป็น 2 คอลัมน์ */
                 grid-template-columns: 1fr 1fr;
-                gap: 10px; /* ลดช่องว่างระหว่างเมนู */
+                gap: 10px;
                 padding: 10px;
             }
         }
@@ -126,7 +179,12 @@
 </head>
 <body>
     <div class="banner">
-        <h1>เลือกเมนูอวยพร พร้อมเติม topping สิ่งดีๆ ให้โมบายฮาโตะ</h1>
+        <img src="https://i.postimg.cc/jjdS9mD2/mfc-logo1-3.png" alt="MFC Logo">
+        <h1>
+            <span class="fixed-line"><span>เ</span><span>ล</span><span>ื</span><span>อ</span><span>ก</span><span>เ</span><span>ม</span><span>น</span><span>ู</span><span>อ</span><span>ว</span><span>ย</span><span>พ</span><span>ร</span></span>
+            <span class="fixed-line"><span>&nbsp;</span><span>พ</span><span>ร</span><span>้</span><span>อ</span><span>ม</span><span>เ</span><span>ติ</span><span>ม</span><span>&nbsp;</span><span>t</span><span>o</span><span>p</span><span>p</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span><span>สิ่</span><span>ง</span><span>ดี</span><span>ๆ</span></span>
+            <span class="nowrap-phrase"><span>&nbsp;</span><span>ใ</span><span>ห้</span><span>โ</span><span>ม</span><span>บ</span><span>า</span><span>ย</span><span>ฮ</span><span>า</span><span>โ</span><span>ต</span><span>ะ</span></span>
+        </h1>
     </div>
 
     <form id="wishForm" method="post" action="https://script.google.com/macros/s/AKfycbyCXhI5Q8RfDKtgiDNsOcrJrFp5w_5L2FYj43ygB1poV19kd9bAiZ8mwUuVwEHdPgka/exec">
@@ -208,6 +266,27 @@
                 checkbox.name = '';
             });
             document.getElementById('customWish').name = '';
+        });
+
+        // JavaScript เพื่อให้แอนิเมชันคลื่นมีดีเลย์
+        document.addEventListener('DOMContentLoaded', () => {
+            const h1Spans = document.querySelectorAll('.banner h1 span');
+            h1Spans.forEach((span, index) => {
+                // ตรวจสอบว่า span เป็นส่วนหนึ่งของ nowrap-phrase หรือ fixed-line หรือไม่
+                // ถ้าเป็นส่วนหนึ่งของ nowrap-phrase หรือ fixed-line ก็ยังคงใช้ animationDelay
+                // แต่ถ้าเป็น &nbsp; ที่ไม่ได้อยู่ในกลุ่ม ก็จะไม่มี animationDelay
+                if (span.closest('.nowrap-phrase') || span.closest('.fixed-line')) {
+                    const parentGroup = span.closest('.nowrap-phrase') || span.closest('.fixed-line');
+                    const groupSpans = Array.from(parentGroup.querySelectorAll('span'));
+                    const groupIndex = groupSpans.indexOf(span);
+                    span.style.animationDelay = `${groupIndex * 0.05}s`;
+                } else {
+                    // สำหรับ span ที่ไม่ได้อยู่ในกลุ่ม fixed-line หรือ nowrap-phrase
+                    // อาจจะต้องหา index ที่ถูกต้องในกลุ่มทั้งหมด หรือไม่ใส่ delay
+                    // ในกรณีนี้ เราจะใช้ index รวมทั้งหมดเพื่อให้ animation ต่อเนื่อง
+                    span.style.animationDelay = `${index * 0.05}s`;
+                }
+            });
         });
     </script>
 </body>
