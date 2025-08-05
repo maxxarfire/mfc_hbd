@@ -21,7 +21,10 @@
         }
 
         .banner {
-            background-color: #c000ff; /* สีม่วงของ Banner */
+            /* เปลี่ยน background-color เป็น background-image สำหรับ gradient */
+            background-image: linear-gradient(to right, #c000ff, #5a007f, #c000ff); /* ปรับสีม่วงให้มีคอนทราสต์มากขึ้น */
+            background-size: 200% auto; /* ทำให้ gradient กว้างกว่า element เพื่อให้เคลื่อนไหวได้ */
+            animation: gradientAnimation 3s linear infinite; /* เพิ่มแอนิเมชัน gradient */
             color: white;
             padding: 20px 30px; /* เพิ่ม padding ด้านข้าง */
             text-align: center;
@@ -42,8 +45,7 @@
             white-space: normal; /* อนุญาตให้ข้อความขึ้นบรรทัดใหม่ได้ */
         }
         .banner h1 span {
-            display: inline-block; /* ทำให้แต่ละตัวอักษรสามารถเคลื่อนไหวได้ */
-            animation: waveText 1.5s infinite alternate ease-in-out; /* แอนิเมชันคลื่น */
+            display: inline-block; /* ทำให้แต่ละตัวอักษรยังคงสามารถจัดเรียงและมี spacing ได้ */
         }
         /* เพิ่ม CSS สำหรับส่วนที่ต้องการให้ไม่ตัดบรรทัด */
         .banner h1 .nowrap-phrase,
@@ -129,14 +131,11 @@
             background-color: #8a00b3; /* ปรับสีม่วงของปุ่มเมื่อ hover */
         }
 
-        /* Keyframes for wave text animation */
-        @keyframes waveText {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-5px); /* ยกตัวอักษรขึ้น 5px */
-            }
+        /* Keyframes สำหรับแอนิเมชัน gradient */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         @media (max-width: 600px) {
@@ -155,17 +154,6 @@
                     font-size: 1.2rem;
                 }
             }
-            .banner h1 span {
-                animation: waveTextMobile 1.5s infinite alternate ease-in-out; /* แอนิเมชันคลื่นสำหรับมือถือ */
-            }
-            @keyframes waveTextMobile {
-                0%, 100% {
-                    transform: translateY(0);
-                }
-                50% {
-                    transform: translateY(-3px); /* ยกตัวอักษรขึ้น 3px สำหรับมือถือ */
-                }
-            }
             .banner img {
                 max-width: 100px; /* ปรับขนาดโลโก้ให้เล็กลงบนมือถือ */
             }
@@ -179,10 +167,11 @@
 </head>
 <body>
     <div class="banner">
-        <img src="https://i.postimg.cc/jjdS9mD2/mfc-logo1-3.png" alt="MFC Logo">
+        <img src="https://i.postimg.cc/Dw469vMp/mfc-logo2-2.png" alt="MFC Logo">
         <h1>
             <span class="fixed-line"><span>เ</span><span>ล</span><span>ื</span><span>อ</span><span>ก</span><span>เ</span><span>ม</span><span>น</span><span>ู</span><span>อ</span><span>ว</span><span>ย</span><span>พ</span><span>ร</span></span>
             <span class="fixed-line"><span>&nbsp;</span><span>พ</span><span>ร</span><span>้</span><span>อ</span><span>ม</span><span>เ</span><span>ติ</span><span>ม</span><span>&nbsp;</span><span>t</span><span>o</span><span>p</span><span>p</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span><span>สิ่</span><span>ง</span><span>ดี</span><span>ๆ</span></span>
+            <br> <!-- เพิ่มแท็ก <br> เพื่อบังคับขึ้นบรรทัดใหม่ -->
             <span class="nowrap-phrase"><span>&nbsp;</span><span>ใ</span><span>ห้</span><span>โ</span><span>ม</span><span>บ</span><span>า</span><span>ย</span><span>ฮ</span><span>า</span><span>โ</span><span>ต</span><span>ะ</span></span>
         </h1>
     </div>
@@ -256,38 +245,17 @@
                 if (finalWish !== '') {
                     finalWish += '\n\n';
                 }
-                finalWish += customWishText;
-            }
-            
-            combinedWishInput.value = finalWish;
-            form.appendChild(combinedWishInput);
-            
-            document.querySelectorAll('input[name="selectedWish"]').forEach(checkbox => {
-                checkbox.name = '';
-            });
-            document.getElementById('customWish').name = '';
-        });
-
-        // JavaScript เพื่อให้แอนิเมชันคลื่นมีดีเลย์
-        document.addEventListener('DOMContentLoaded', () => {
-            const h1Spans = document.querySelectorAll('.banner h1 span');
-            h1Spans.forEach((span, index) => {
-                // ตรวจสอบว่า span เป็นส่วนหนึ่งของ nowrap-phrase หรือ fixed-line หรือไม่
-                // ถ้าเป็นส่วนหนึ่งของ nowrap-phrase หรือ fixed-line ก็ยังคงใช้ animationDelay
-                // แต่ถ้าเป็น &nbsp; ที่ไม่ได้อยู่ในกลุ่ม ก็จะไม่มี animationDelay
-                if (span.closest('.nowrap-phrase') || span.closest('.fixed-line')) {
-                    const parentGroup = span.closest('.nowrap-phrase') || span.closest('.fixed-line');
-                    const groupSpans = Array.from(parentGroup.querySelectorAll('span'));
-                    const groupIndex = groupSpans.indexOf(span);
-                    span.style.animationDelay = `${groupIndex * 0.05}s`;
-                } else {
-                    // สำหรับ span ที่ไม่ได้อยู่ในกลุ่ม fixed-line หรือ nowrap-phrase
-                    // อาจจะต้องหา index ที่ถูกต้องในกลุ่มทั้งหมด หรือไม่ใส่ delay
-                    // ในกรณีนี้ เราจะใช้ index รวมทั้งหมดเพื่อให้ animation ต่อเนื่อง
-                    span.style.animationDelay = `${index * 0.05}s`;
+                    finalWish += customWishText;
                 }
+            
+                combinedWishInput.value = finalWish;
+                form.appendChild(combinedWishInput);
+            
+                document.querySelectorAll('input[name="selectedWish"]').forEach(checkbox => {
+                    checkbox.name = '';
+                });
+                document.getElementById('customWish').name = '';
             });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
