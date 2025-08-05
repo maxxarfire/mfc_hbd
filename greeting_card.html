@@ -270,8 +270,16 @@
             // เริ่มต้นการเคลื่อนไหวแบบสุ่มเมื่อโหลดหน้าเว็บ
             startRandomMovement();
 
-            // เพิ่ม Event Listener สำหรับการคลิกที่รูปภาพ
-            colonelImage.addEventListener('click', () => {
+            // เพิ่ม Event Listener สำหรับการคลิกที่รูปภาพ (สำหรับ desktop)
+            colonelImage.addEventListener('click', handleColonelClick);
+            // เพิ่ม Event Listener สำหรับการสัมผัส (สำหรับ mobile)
+            colonelImage.addEventListener('touchstart', handleColonelClick);
+
+            function handleColonelClick(event) {
+                // ป้องกันการทำงานซ้ำซ้อนของ click และ touchstart
+                event.preventDefault(); 
+                event.stopPropagation();
+
                 // 1. หยุดการเคลื่อนไหวแบบสุ่ม
                 clearInterval(randomIntervalId);
 
@@ -292,7 +300,7 @@
                     // เริ่มการเคลื่อนไหวแบบสุ่มต่อ
                     startRandomMovement();
                 }, 2000); // 2000 มิลลิวินาที = 2 วินาที
-            });
+            }
         });
     </script>
 </body>
