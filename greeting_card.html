@@ -12,7 +12,7 @@
             font-family: 'Kanit', sans-serif;
             background-color: #f0f0f0; /* เปลี่ยนพื้นหลัง Body เป็นสีเทาอ่อน */
             margin: 0;
-            padding: 0; /* ลบ padding ออกจาก body */
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,14 +23,14 @@
 
         /* เพิ่ม CSS สำหรับพื้นหลังแอนิเมชันลูกโป่ง */
         .balloon-background {
-            position: fixed; /* ให้อยู่กับที่เมื่อเลื่อนหน้าจอ */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #a864d3, #6a0dad); /* ไล่เฉดสีม่วงสำหรับพื้นหลังลูกโป่ง */
-            z-index: -1; /* ให้พื้นหลังอยู่ด้านหลังสุด */
-            overflow: hidden; /* ซ่อนสิ่งที่ล้นออกไป */
+            background: linear-gradient(135deg, #a864d3, #6a0dad);
+            z-index: -1;
+            overflow: hidden;
         }
         .balloon-background span {
             position: absolute;
@@ -38,10 +38,10 @@
             animation: floatUp linear infinite;
         }
         /* กำหนดสีและขนาดลูกโป่ง */
-        .balloon-background span:nth-child(odd) { background: rgba(255, 255, 255, 0.5); } /* ลูกโป่งสีขาวโปร่งแสง */
-        .balloon-background span:nth-child(even) { background: rgba(192, 0, 255, 0.5); } /* ลูกโป่งสีม่วงโปร่งแสง */
+        .balloon-background span:nth-child(odd) { background: rgba(255, 255, 255, 0.5); }
+        .balloon-background span:nth-child(even) { background: rgba(192, 0, 255, 0.5); }
 
-        /* กำหนดขนาด ตำแหน่งเริ่มต้น และความเร็วของลูกโป่งแต่ละลูก (ปรับ animation-duration ให้สั้นลง) */
+        /* กำหนดขนาด ตำแหน่งเริ่มต้น และความเร็วของลูกโป่งแต่ละลูก */
         .balloon-background span:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 8s; animation-delay: 0s; }
         .balloon-background span:nth-child(2) { width: 50px; height: 50px; left: 25%; animation-duration: 10s; animation-delay: 1s; }
         .balloon-background span:nth-child(3) { width: 30px; height: 30px; left: 40%; animation-duration: 7s; animation-delay: 2s; }
@@ -58,7 +58,6 @@
         .balloon-background span:nth-child(14) { width: 50px; height: 50px; left: 30%; animation-duration: 12.5s; animation-delay: 7.5s; }
         .balloon-background span:nth-child(15) { width: 35px; height: 35px; left: 45%; animation-duration: 10s; animation-delay: 8.5s; }
 
-
         @keyframes floatUp {
             0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
             50% { opacity: 1; }
@@ -68,51 +67,54 @@
         /* CSS สำหรับรูปภาพ Colonel ที่ลอยแบบสุ่ม */
         .random-colonel-image {
             position: absolute;
-            /* width จะถูกกำหนดโดย JavaScript */
-            height: auto; /* รักษาอัตราส่วน */
-            z-index: 11; /* ให้อยู่ด้านหน้าการ์ด */
-            animation: colonelFloat 2s ease-in-out infinite alternate; /* แอนิเมชันลอยขึ้นลง */
-            cursor: pointer; /* แสดงว่าคลิกได้ */
-            transition: all 0.5s ease-in-out; /* เพิ่ม transition เพื่อการขยาย/ย่อที่ราบรื่น */
+            height: auto;
+            z-index: 11;
+            animation: colonelFloat 2s ease-in-out infinite alternate;
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
         }
 
         /* New CSS for full screen Colonel */
         .random-colonel-image.full-screen-colonel {
-            position: fixed; /* Fixed to viewport */
-            top: 0 !important; /* Override inline styles */
-            left: 0 !important; /* Override inline styles */
-            width: 100vw !important; /* Full viewport width */
-            height: 100vh !important; /* Full viewport height */
-            object-fit: contain; /* Scale down to fit, maintaining aspect ratio */
-            z-index: 9999; /* On top of everything */
-            animation: none !important; /* หยุดแอนิเมชันลอยเมื่อเต็มจอ */
+            position: fixed;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            object-fit: contain;
+            z-index: 9999;
+            animation: none !important;
         }
 
         @keyframes colonelFloat {
             0%, 100% {
                 transform: translateY(0) scale(1);
-                opacity: 0.7; /* โปร่งแสงเล็กน้อยเมื่อไม่ถึงจุดสูงสุด */
+                opacity: 0.7;
             }
             50% {
-                transform: translateY(-15px) scale(1.05); /* ลอยขึ้นและขยายเล็กน้อย */
-                opacity: 1; /* ทึบแสงเมื่อถึงจุดสูงสุด */
+                transform: translateY(-15px) scale(1.05);
+                opacity: 1;
             }
         }
 
         .greeting-card {
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            padding: 50px;
-            width: 80%;
-            max-width: 600px;
+            padding: 20px; /* ลด padding เพื่อประหยัดพื้นที่ */
+            width: 90%; /* ขยายความกว้างเล็กน้อยเพื่อให้ดูดีบนมือถือ */
+            max-width: 450px; /* จำกัดความกว้างสูงสุดให้พอดี */
+            max-height: 90vh; /* จำกัดความสูงสูงสุดไม่ให้ล้นจอ */
             position: relative;
-            z-index: 10; /* ให้การ์ดอยู่ด้านหน้าลูกโป่ง */
+            z-index: 10;
             animation: fadeIn 1s ease-in-out;
-
             background-image: url('https://i.postimg.cc/J4bQ16qM/card-bg1.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            display: flex; /* ใช้ flexbox เพื่อให้เนื้อหาจัดเรียงอัตโนมัติ */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
@@ -120,44 +122,52 @@
         }
         h1 {
             color: #c000ff;
-            margin-bottom: 20px;
-            font-size: 3rem;
+            margin: 10px 0; /* ปรับ margin */
+            font-size: 2.5rem; /* ปรับขนาด font เล็กลง */
             text-shadow: none;
         }
         .birthday-girl-photo {
-            width: 150px;
-            height: 150px;
+            width: 120px; /* ปรับขนาดรูปภาพให้เล็กลง */
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* ปรับ margin */
+        }
+        .wish-text-container {
+            /* ไม่ต้องกำหนดความสูงคงที่ ให้เนื้อหาปรับอัตโนมัติ */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 15px 0; /* ปรับ margin */
+            flex-grow: 1; /* ให้ยืดหยุ่นในแนวตั้ง */
         }
         .wish-text {
             color: #c000ff;
-            line-height: 1.8;
-            margin-bottom: 30px;
+            line-height: 1.6;
             white-space: pre-wrap;
             text-shadow: none;
-            /* เพิ่มคุณสมบัติเพื่อให้ตรวจสอบการล้นได้ */
-            height: auto;
-            min-height: 20px; /* กำหนดความสูงขั้นต่ำเพื่อรองรับข้อความสั้นๆ */
-            overflow: hidden; /* ซ่อนข้อความที่เกิน */
+            word-wrap: break-word;
+            overflow: hidden;
+            max-height: 100%;
+            font-size: 20px; /* กำหนดขนาดเริ่มต้นที่เหมาะสม */
         }
         .sender {
             font-style: italic;
             color: #c000ff;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1.1rem;
+            margin: 10px 0 20px; /* ปรับ margin */
             text-shadow: none;
         }
         .button-container {
-            margin-top: 30px;
+            margin-top: 10px; /* ปรับ margin */
         }
         .history-button {
             display: inline-block;
-            padding: 12px 25px;
-            font-size: 1.1rem;
+            padding: 10px 20px; /* ปรับขนาดปุ่มให้เล็กลง */
+            font-size: 1rem;
             color: white;
             background-color: #8a2be2;
             border-radius: 50px;
@@ -176,13 +186,13 @@
         }
         .emoji-decoration.left {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 15px; /* ปรับตำแหน่ง */
+            left: 15px;
         }
         .emoji-decoration.right {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
         }
         @keyframes pop {
             from { transform: scale(1); }
@@ -197,7 +207,6 @@
         <span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <!-- เหลือรูปภาพ Colonel เพียงตัวเดียว -->
     <img src="https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif" class="random-colonel-image" id="colonelImage">
 
     <div class="greeting-card">
@@ -205,7 +214,9 @@
         <span class="emoji-decoration right">🎁</span>
         <img src="https://i.postimg.cc/cCrZZtY8/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo">
         <h1>สุขสันต์วันเกิดนะ โมบาย!</h1>
-        <p class="wish-text" id="wishDisplay"></p>
+        <div class="wish-text-container">
+            <p class="wish-text" id="wishDisplay"></p>
+        </div>
         <p class="sender" id="senderDisplay"></p>
         
         <div class="button-container">
@@ -224,41 +235,41 @@
 
         document.getElementById('senderDisplay').textContent = `จาก: ${sender}`;
 
-        // ฟังก์ชันสำหรับปรับขนาด font อัตโนมัติที่ปรับปรุงใหม่
+        // ฟังก์ชันสำหรับปรับขนาด font อัตโนมัติให้พอดี 2 บรรทัด
         function adjustFontSize() {
-            const cardElement = document.querySelector('.greeting-card');
-            const wishTextElement = document.querySelector('.wish-text');
-            const buttonContainer = document.querySelector('.button-container');
-
-            // คำนวณความสูงที่เหลือสำหรับการแสดงผลข้อความ
-            const availableHeight = cardElement.offsetHeight - cardElement.querySelector('h1').offsetHeight - cardElement.querySelector('.birthday-girl-photo').offsetHeight - cardElement.querySelector('.sender').offsetHeight - buttonContainer.offsetHeight;
-
-            let fontSize = 25; // กำหนดขนาด font เริ่มต้น
-            const minFontSize = 10; // กำหนดขนาด font ขั้นต่ำ
+            const wishTextElement = document.getElementById('wishDisplay');
+            const maxLines = 2;
+            let fontSize = 20; // ปรับขนาด font เริ่มต้น
+            const minFontSize = 10;
             
-            // ตั้งค่า fontSize เริ่มต้นและรีเซ็ตการแสดงผล
+            // รีเซ็ตขนาด font ก่อนคำนวณ
             wishTextElement.style.fontSize = `${fontSize}px`;
-            wishTextElement.style.height = 'auto'; // ให้ความสูงยืดหยุ่นได้
+            
+            // คำนวณความสูงสูงสุดที่ต้องการจาก 2 บรรทัด
+            let lineHeight = parseFloat(window.getComputedStyle(wishTextElement).lineHeight);
+            let maxHeight = lineHeight * maxLines;
 
-            // วนลูปเพื่อลดขนาด font จนกว่าความสูงของข้อความจะไม่เกินพื้นที่ที่เหลือ
-            while (wishTextElement.scrollHeight > availableHeight && fontSize > minFontSize) {
+            // วนลูปเพื่อลดขนาด font จนกว่าความสูงของข้อความจะไม่เกินความสูงสูงสุด
+            while (wishTextElement.offsetHeight > maxHeight && fontSize > minFontSize) {
                 fontSize -= 0.5;
                 wishTextElement.style.fontSize = `${fontSize}px`;
+                // อัปเดต lineHeight ในแต่ละรอบ
+                lineHeight = parseFloat(window.getComputedStyle(wishTextElement).lineHeight);
+                maxHeight = lineHeight * maxLines;
             }
-
-            // ถ้าขนาด font ลดลงจนถึงขั้นต่ำแล้ว ข้อความยังล้นอยู่
-            if (wishTextElement.scrollHeight > availableHeight && fontSize <= minFontSize) {
-                // ให้ซ่อนส่วนที่ล้น และแสดง...
-                wishTextElement.style.overflowY = 'hidden';
+            
+            // ถ้าข้อความยังล้นอยู่ ให้ซ่อนส่วนที่เกิน
+            if (wishTextElement.offsetHeight > maxHeight) {
+                wishTextElement.style.maxHeight = `${maxHeight}px`;
             } else {
-                wishTextElement.style.overflowY = 'visible';
+                wishTextElement.style.maxHeight = 'none';
             }
         }
         
         // JavaScript สำหรับการกำหนดตำแหน่งและขนาดแบบสุ่มของรูปภาพ Colonel
         document.addEventListener('DOMContentLoaded', () => {
-            const colonelImage = document.getElementById('colonelImage'); // เลือกรูปภาพตัวเดียว
-            let randomIntervalId; // เพื่อเก็บ ID ของ setInterval
+            const colonelImage = document.getElementById('colonelImage');
+            let randomIntervalId;
             const originalColonelSrc = "https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif";
             const fullScreenColonelSrc = "https://i.postimg.cc/wBWCwTyf/colonel-mobile-stand-gif2.gif";
 
@@ -266,24 +277,24 @@
             adjustFontSize();
 
             // เพิ่ม Event Listener สำหรับการปรับขนาดหน้าจอ
-            window.addEventListener('resize', adjustFontSize);
-
+            window.addEventListener('resize', () => {
+                adjustFontSize();
+                setRandomPositionAndSize(colonelImage);
+            });
 
             // Function to set a random position and size for the image
             function setRandomPositionAndSize(imgElement) {
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
 
-                const minWidth = 150; // กำหนดความกว้างขั้นต่ำ
-                const maxWidth = Math.min(300, viewportWidth * 0.4); // กำหนดความกว้างสูงสุด (ไม่เกิน 300px หรือ 40% ของ viewport)
+                const minWidth = 150;
+                const maxWidth = Math.min(300, viewportWidth * 0.4);
 
                 const randomWidth = Math.floor(Math.random() * (maxWidth - minWidth + 1)) + minWidth;
                 
                 imgElement.style.width = `${randomWidth}px`;
-                imgElement.style.height = 'auto'; // รักษาอัตราส่วน
+                imgElement.style.height = 'auto';
 
-                // ต้องรอให้รูปภาพมีขนาดจริงก่อนคำนวณตำแหน่ง
-                // ใช้ setTimeout เพื่อให้แน่ใจว่า DOM ได้รับการอัปเดตขนาดแล้ว
                 setTimeout(() => {
                     const currentImgWidth = imgElement.offsetWidth;
                     const currentImgHeight = imgElement.offsetHeight;
@@ -293,13 +304,12 @@
 
                     imgElement.style.left = `${randomLeft}px`;
                     imgElement.style.top = `${randomTop}px`;
-                }, 0); // ใช้ 0ms setTimeout เพื่อให้รันหลังจาก DOM update
+                }, 0);
             }
 
             // เริ่มต้นการกำหนดตำแหน่งและขนาดแบบสุ่ม
             function startRandomMovement() {
-                // ตรวจสอบให้แน่ใจว่ารูปภาพกลับมาเป็นรูปเดิมก่อนเริ่ม random movement
-                colonelImage.src = originalColonelSrc; 
+                colonelImage.src = originalColonelSrc;
                 if (colonelImage.complete) {
                     setRandomPositionAndSize(colonelImage);
                 } else {
@@ -307,42 +317,33 @@
                 }
                 randomIntervalId = setInterval(() => {
                     setRandomPositionAndSize(colonelImage);
-                }, 1000); // เปลี่ยนตำแหน่งและขนาดทุก 1 วินาที
+                }, 1000);
             }
 
             // เริ่มต้นการเคลื่อนไหวแบบสุ่มเมื่อโหลดหน้าเว็บ
             startRandomMovement();
 
-            // เพิ่ม Event Listener สำหรับการคลิกที่รูปภาพ (สำหรับ desktop)
             colonelImage.addEventListener('click', handleColonelClick);
-            // เพิ่ม Event Listener สำหรับการสัมผัส (สำหรับ mobile)
             colonelImage.addEventListener('touchstart', handleColonelClick);
 
             function handleColonelClick(event) {
-                // ป้องกันการทำงานซ้ำซ้อนของ click และ touchstart
-                event.preventDefault(); 
+                event.preventDefault();
                 event.stopPropagation();
 
-                // 1. หยุดการเคลื่อนไหวแบบสุ่ม
                 clearInterval(randomIntervalId);
 
-                // 2. เปลี่ยนรูปภาพและทำให้เต็มจอ
-                colonelImage.src = fullScreenColonelSrc; // เปลี่ยนเป็นรูปภาพเต็มจอ
+                colonelImage.src = fullScreenColonelSrc;
                 colonelImage.classList.add('full-screen-colonel');
-                // ลบ inline positioning styles ออก เพื่อให้ class full-screen-colonel ทำงาน
                 colonelImage.style.left = '';
                 colonelImage.style.top = '';
-                colonelImage.style.width = ''; // รีเซ็ต width/height เพื่อให้ class full-screen-colonel กำหนด
+                colonelImage.style.width = '';
                 colonelImage.style.height = '';
 
-                // 3. ตั้งเวลาให้กลับเป็นปกติหลังจาก 2 วินาที
                 setTimeout(() => {
                     colonelImage.classList.remove('full-screen-colonel');
-                    // กำหนดตำแหน่งและขนาดแบบสุ่มใหม่ทันที
                     setRandomPositionAndSize(colonelImage);
-                    // เริ่มการเคลื่อนไหวแบบสุ่มต่อ
                     startRandomMovement();
-                }, 2000); // 2000 มิลลิวินาที = 2 วินาที
+                }, 2000);
             }
         });
     </script>
