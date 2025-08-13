@@ -184,27 +184,47 @@
             to { transform: scale(1.1); }
         }
 
-        /* โค้ดที่ปรับปรุงสำหรับหน้าจอเล็ก */
+        /* โค้ดที่ปรับปรุงใหม่ให้ใหญ่ที่สุดสำหรับหน้าจอเล็ก */
         @media (max-width: 600px) {
             .greeting-card {
-                /* เพิ่ม padding เพื่อให้การ์ดดูใหญ่ขึ้น */
-                padding: 40px;
-                /* ให้การ์ดกว้าง 95% ของหน้าจอ */
-                width: 95%;
+                /* ทำให้การ์ดกว้างเต็มหน้าจอ */
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                border-radius: 0;
+                padding: 20px;
+                box-shadow: none;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                box-sizing: border-box;
             }
             h1 {
-                /* เพิ่มขนาด font สำหรับ h1 ให้เท่ากับหน้าจอ desktop */
-                font-size: 3rem;
+                /* เพิ่มขนาด font สำหรับ h1 ให้ใหญ่ขึ้นมาก */
+                font-size: 4rem;
             }
             .wish-text {
-                /* เพิ่มขนาด font สำหรับข้อความอวยพรให้เท่ากับหน้าจอ desktop */
-                font-size: 1.6rem;
-                max-height: 180px; /* เพิ่มความสูงสูงสุดของกล่องข้อความ */
+                /* เพิ่มขนาด font สำหรับข้อความอวยพรให้ใหญ่ขึ้นมาก */
+                font-size: 2rem;
+                max-height: unset;
+            }
+            .sender {
+                /* เพิ่มขนาด font สำหรับชื่อผู้ส่งให้ใหญ่ขึ้น */
+                font-size: 1.5rem;
             }
             .birthday-girl-photo {
                 /* เพิ่มขนาดรูปภาพให้ใหญ่ขึ้น */
-                width: 120px;
-                height: 120px;
+                width: 150px;
+                height: 150px;
+            }
+            .emoji-decoration.left {
+                top: 10px;
+                left: 10px;
+            }
+            .emoji-decoration.right {
+                bottom: 10px;
+                right: 10px;
             }
         }
     </style>
