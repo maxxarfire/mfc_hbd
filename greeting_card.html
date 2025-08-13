@@ -18,7 +18,7 @@
             align-items: center;
             min-height: 100vh;
             text-align: center;
-            overflow: hidden; /* ป้องกัน scrollbar */
+            /* ลบ overflow: hidden; ออก เพื่อให้สามารถ scroll ได้ */
         }
 
         /* เพิ่ม CSS สำหรับพื้นหลังแอนิเมชันลูกโป่ง */
@@ -103,12 +103,14 @@
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             padding: 50px;
-            width: 80%;
-            max-width: 600px;
+            width: 70%;
+            max-width: 500px;
             position: relative;
             z-index: 10; /* ให้การ์ดอยู่ด้านหน้าลูกโป่ง */
             animation: fadeIn 1s ease-in-out;
-            margin: 20px; /* เพิ่ม margin ที่นี่ */
+            margin: 20px;
+            max-height: 90vh; /* กำหนดความสูงสูงสุดของการ์ด */
+            overflow-y: auto; /* เพิ่ม scrollbar แนวตั้งเมื่อเนื้อหาล้น */
 
             background-image: url('https://i.postimg.cc/J4bQ16qM/card-bg1.jpg');
             background-size: cover;
