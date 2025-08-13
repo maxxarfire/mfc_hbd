@@ -100,10 +100,10 @@
         .greeting-card {
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            padding: 20px; /* ลด padding เพื่อประหยัดพื้นที่ */
-            width: 90%; /* ขยายความกว้างเล็กน้อยเพื่อให้ดูดีบนมือถือ */
-            max-width: 450px; /* จำกัดความกว้างสูงสุดให้พอดี */
-            max-height: 90vh; /* จำกัดความสูงสูงสุดไม่ให้ล้นจอ */
+            padding: 20px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 90vh; /* กำหนดความสูงสูงสุดเพื่อให้การ์ดไม่ล้นจอ */
             position: relative;
             z-index: 10;
             animation: fadeIn 1s ease-in-out;
@@ -111,10 +111,12 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            display: flex; /* ใช้ flexbox เพื่อให้เนื้อหาจัดเรียงอัตโนมัติ */
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            /* เพิ่ม overflow-y: auto; เพื่อให้การ์ดสามารถ scroll ได้ถ้าเนื้อหาเกิน */
+            overflow-y: auto; 
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
@@ -122,27 +124,30 @@
         }
         h1 {
             color: #c000ff;
-            margin: 10px 0; /* ปรับ margin */
-            font-size: 2.5rem; /* ปรับขนาด font เล็กลง */
+            margin: 10px 0;
+            font-size: 2.5rem;
             text-shadow: none;
         }
         .birthday-girl-photo {
-            width: 120px; /* ปรับขนาดรูปภาพให้เล็กลง */
+            width: 120px;
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px; /* ปรับ margin */
+            margin-bottom: 15px;
         }
         .wish-text-container {
-            /* ไม่ต้องกำหนดความสูงคงที่ ให้เนื้อหาปรับอัตโนมัติ */
+            /* ลบความสูงคงที่ออกเพื่อให้ยืดหยุ่น */
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            margin: 15px 0; /* ปรับ margin */
-            flex-grow: 1; /* ให้ยืดหยุ่นในแนวตั้ง */
+            margin: 15px 0;
+            flex-grow: 1;
+            /* เพิ่ม max-height และ overflow-y เพื่อให้กล่องข้อความสามารถ scroll ได้ถ้าข้อความยาวเกินไป */
+            max-height: 200px; 
+            overflow-y: auto; 
         }
         .wish-text {
             color: #c000ff;
@@ -150,23 +155,23 @@
             white-space: pre-wrap;
             text-shadow: none;
             word-wrap: break-word;
-            overflow: hidden;
-            max-height: 100%;
-            font-size: 20px; /* กำหนดขนาดเริ่มต้นที่เหมาะสม */
+            font-size: 20px; /* ใช้ขนาด font เริ่มต้นที่เหมาะสม */
+            /* ลบ max-height และ overflow: hidden; ออก */
+            overflow: visible;
         }
         .sender {
             font-style: italic;
             color: #c000ff;
             font-size: 1.1rem;
-            margin: 10px 0 20px; /* ปรับ margin */
+            margin: 10px 0 20px;
             text-shadow: none;
         }
         .button-container {
-            margin-top: 10px; /* ปรับ margin */
+            margin-top: 10px;
         }
         .history-button {
             display: inline-block;
-            padding: 10px 20px; /* ปรับขนาดปุ่มให้เล็กลง */
+            padding: 10px 20px;
             font-size: 1rem;
             color: white;
             background-color: #8a2be2;
@@ -186,7 +191,7 @@
         }
         .emoji-decoration.left {
             position: absolute;
-            top: 15px; /* ปรับตำแหน่ง */
+            top: 15px;
             left: 15px;
         }
         .emoji-decoration.right {
@@ -230,41 +235,9 @@
         const sender = decodeURIComponent(urlParams.get('sender'));
         const wishDisplay = document.getElementById('wishDisplay');
 
-        // ตั้งค่าข้อความคำอวยพรก่อน
+        // ตั้งค่าข้อความคำอวยพร
         wishDisplay.textContent = wish;
-
         document.getElementById('senderDisplay').textContent = `จาก: ${sender}`;
-
-        // ฟังก์ชันสำหรับปรับขนาด font อัตโนมัติให้พอดี 2 บรรทัด
-        function adjustFontSize() {
-            const wishTextElement = document.getElementById('wishDisplay');
-            const maxLines = 2;
-            let fontSize = 20; // ปรับขนาด font เริ่มต้น
-            const minFontSize = 10;
-            
-            // รีเซ็ตขนาด font ก่อนคำนวณ
-            wishTextElement.style.fontSize = `${fontSize}px`;
-            
-            // คำนวณความสูงสูงสุดที่ต้องการจาก 2 บรรทัด
-            let lineHeight = parseFloat(window.getComputedStyle(wishTextElement).lineHeight);
-            let maxHeight = lineHeight * maxLines;
-
-            // วนลูปเพื่อลดขนาด font จนกว่าความสูงของข้อความจะไม่เกินความสูงสูงสุด
-            while (wishTextElement.offsetHeight > maxHeight && fontSize > minFontSize) {
-                fontSize -= 0.5;
-                wishTextElement.style.fontSize = `${fontSize}px`;
-                // อัปเดต lineHeight ในแต่ละรอบ
-                lineHeight = parseFloat(window.getComputedStyle(wishTextElement).lineHeight);
-                maxHeight = lineHeight * maxLines;
-            }
-            
-            // ถ้าข้อความยังล้นอยู่ ให้ซ่อนส่วนที่เกิน
-            if (wishTextElement.offsetHeight > maxHeight) {
-                wishTextElement.style.maxHeight = `${maxHeight}px`;
-            } else {
-                wishTextElement.style.maxHeight = 'none';
-            }
-        }
         
         // JavaScript สำหรับการกำหนดตำแหน่งและขนาดแบบสุ่มของรูปภาพ Colonel
         document.addEventListener('DOMContentLoaded', () => {
@@ -273,12 +246,8 @@
             const originalColonelSrc = "https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif";
             const fullScreenColonelSrc = "https://i.postimg.cc/wBWCwTyf/colonel-mobile-stand-gif2.gif";
 
-            // เรียกฟังก์ชันปรับขนาด font ทันทีหลังจาก DOM โหลดเสร็จและข้อความถูกตั้งค่าแล้ว
-            adjustFontSize();
-
             // เพิ่ม Event Listener สำหรับการปรับขนาดหน้าจอ
             window.addEventListener('resize', () => {
-                adjustFontSize();
                 setRandomPositionAndSize(colonelImage);
             });
 
