@@ -189,6 +189,24 @@
             from { transform: scale(1); }
             to { transform: scale(1.1); }
         }
+
+        /* โค้ดที่เพิ่มเข้ามาเพื่อปรับขนาดการ์ดบนหน้าจอเล็ก */
+        @media (max-width: 600px) {
+            .greeting-card {
+                padding: 20px; /* ลด padding สำหรับหน้าจอเล็ก */
+            }
+            h1 {
+                font-size: 2rem; /* ลดขนาด font สำหรับ h1 */
+            }
+            .wish-text {
+                font-size: 1.2rem; /* ลดขนาด font สำหรับข้อความอวยพร */
+                max-height: 150px; /* ลดความสูงสูงสุดของกล่องข้อความลงเล็กน้อย */
+            }
+            .birthday-girl-photo {
+                width: 100px; /* ลดขนาดรูปภาพให้เล็กลง */
+                height: 100px;
+            }
+        }
     </style>
 </head>
 <body>
