@@ -8,15 +8,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS ที่ถูกปรับแก้ใหม่เพื่อบังคับให้เต็มหน้าจอ */
+        html, body {
+            height: 100%; /* บังคับให้ HTML และ Body สูงเต็มจอ */
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* ป้องกันการเลื่อนหน้าจอที่ไม่ต้องการ */
+        }
+
         body {
             font-family: 'Kanit', sans-serif;
             background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             text-align: center;
         }
 
@@ -184,27 +189,45 @@
             to { transform: scale(1.1); }
         }
 
-        /* โค้ดที่ปรับปรุงสำหรับหน้าจอเล็ก */
+        /* โค้ดที่ปรับปรุงใหม่สำหรับมือถือให้เต็มจอ */
         @media (max-width: 600px) {
             .greeting-card {
-                /* เพิ่ม padding เพื่อให้การ์ดดูใหญ่ขึ้น */
-                padding: 40px;
-                /* ให้การ์ดกว้าง 95% ของหน้าจอ */
-                width: 95%;
+                /* บังคับให้การ์ดเต็มหน้าจอทั้งกว้างและสูง */
+                width: 100vw;
+                height: 100vh;
+                max-width: none;
+                margin: 0;
+                border-radius: 0;
+                padding: 20px;
+                box-shadow: none;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                box-sizing: border-box;
             }
             h1 {
-                /* เพิ่มขนาด font สำหรับ h1 ให้เท่ากับหน้าจอ desktop */
-                font-size: 3rem;
+                font-size: 4rem;
             }
             .wish-text {
-                /* เพิ่มขนาด font สำหรับข้อความอวยพรให้เท่ากับหน้าจอ desktop */
-                font-size: 1.6rem;
-                max-height: 180px; /* เพิ่มความสูงสูงสุดของกล่องข้อความ */
+                font-size: 2rem;
+                max-height: unset;
+                overflow-y: hidden; /* ป้องกัน scrollbar ในส่วนข้อความ */
+            }
+            .sender {
+                font-size: 1.5rem;
             }
             .birthday-girl-photo {
-                /* เพิ่มขนาดรูปภาพให้ใหญ่ขึ้น */
-                width: 120px;
-                height: 120px;
+                width: 150px;
+                height: 150px;
+            }
+            .emoji-decoration.left {
+                top: 10px;
+                left: 10px;
+            }
+            .emoji-decoration.right {
+                bottom: 10px;
+                right: 10px;
             }
         }
     </style>
