@@ -134,12 +134,16 @@
             margin-bottom: 20px;
         }
         .wish-text {
-            font-size: 1.6rem;
+            /* ไม่กำหนด font-size ที่นี่แล้ว แต่จะให้ JS จัดการแทน */
             color: #c000ff;
             line-height: 1.8;
             margin-bottom: 30px;
             white-space: pre-wrap;
             text-shadow: none;
+            /* เพิ่มคุณสมบัติเพื่อให้ตรวจสอบการล้นได้ */
+            height: auto;
+            min-height: 20px; /* กำหนดความสูงขั้นต่ำเพื่อรองรับข้อความสั้นๆ */
+            overflow: hidden; /* ซ่อนข้อความที่เกิน */
         }
         .sender {
             font-style: italic;
@@ -214,9 +218,25 @@
         const urlParams = new URLSearchParams(window.location.search);
         const wish = decodeURIComponent(urlParams.get('wish'));
         const sender = decodeURIComponent(urlParams.get('sender'));
+        const wishDisplay = document.getElementById('wishDisplay');
 
-        document.getElementById('wishDisplay').textContent = wish;
+        // ตั้งค่าข้อความคำอวยพรก่อน
+        wishDisplay.textContent = wish;
+
         document.getElementById('senderDisplay').textContent = `จาก: ${sender}`;
+
+        // ฟังก์ชันสำหรับปรับขนาด font อัตโนมัติ
+        function adjustFontSize(element) {
+            let fontSize = 25; // กำหนดขนาด font เริ่มต้นเป็น 25px
+            const minFontSize = 10; // กำหนดขนาด font ขั้นต่ำ
+            element.style.fontSize = `${fontSize}px`;
+
+            // วนลูปเพื่อลดขนาด font จนกว่าข้อความจะพอดีกับ element
+            while (element.scrollHeight > element.clientHeight && fontSize > minFontSize) {
+                fontSize -= 0.5; // ลดขนาด font ทีละ 0.5px
+                element.style.fontSize = `${fontSize}px`;
+            }
+        }
 
         // JavaScript สำหรับการกำหนดตำแหน่งและขนาดแบบสุ่มของรูปภาพ Colonel
         document.addEventListener('DOMContentLoaded', () => {
@@ -225,6 +245,8 @@
             const originalColonelSrc = "https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif";
             const fullScreenColonelSrc = "https://i.postimg.cc/wBWCwTyf/colonel-mobile-stand-gif2.gif";
 
+            // เรียกฟังก์ชันปรับขนาด font ทันทีหลังจาก DOM โหลดเสร็จและข้อความถูกตั้งค่าแล้ว
+            adjustFontSize(wishDisplay);
 
             // Function to set a random position and size for the image
             function setRandomPositionAndSize(imgElement) {
