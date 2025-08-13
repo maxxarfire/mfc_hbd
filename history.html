@@ -75,32 +75,16 @@
             margin: 0;
             line-height: 1.5;
         }
-        .back-button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            font-size: 1rem;
-            color: white;
-            background-color: #8a2be2;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .back-button:hover {
-            background-color: #6a0dad;
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>ประวัติคำอวยพรทั้งหมด</h1>
         <div id="historyList"></div>
-        <a href="index.html" class="back-button">กลับสู่หน้าหลัก</a>
     </div>
     
     <script>
+        // URL ของ Google Apps Script ที่ใช้ดึงข้อมูล
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbyCXhI5Q8RfDKtgiDNsOcrJrFp5w_5L2FYj43ygB1poV19kd9bAiZ8mwUuVwEHdPgka/exec';
         const historyList = document.getElementById('historyList');
 
@@ -135,8 +119,8 @@
                         entryDiv.className = 'wish-entry';
 
                         // ใช้รูป Avatar แบบ Placeholder ถ้าไม่มี URL
-                        const finalAvatarUrl = avatarUrl && avatarUrl.trim() !== '' 
-                            ? avatarUrl 
+                        const finalAvatarUrl = avatarUrl && avatarUrl.trim() !== ''
+                            ? avatarUrl
                             : 'https://i.postimg.cc/HsvdZ0ZB/mfc-logo1-1.webp';
                         
                         entryDiv.innerHTML = `
