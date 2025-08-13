@@ -134,7 +134,6 @@
             margin-bottom: 20px;
         }
         .wish-text {
-            /* ไม่กำหนด font-size ที่นี่แล้ว แต่จะให้ JS จัดการแทน */
             color: #c000ff;
             line-height: 1.8;
             margin-bottom: 30px;
@@ -225,19 +224,37 @@
 
         document.getElementById('senderDisplay').textContent = `จาก: ${sender}`;
 
-        // ฟังก์ชันสำหรับปรับขนาด font อัตโนมัติ
-        function adjustFontSize(element) {
-            let fontSize = 25; // กำหนดขนาด font เริ่มต้นเป็น 25px
-            const minFontSize = 10; // กำหนดขนาด font ขั้นต่ำ
-            element.style.fontSize = `${fontSize}px`;
+        // ฟังก์ชันสำหรับปรับขนาด font อัตโนมัติที่ปรับปรุงใหม่
+        function adjustFontSize() {
+            const cardElement = document.querySelector('.greeting-card');
+            const wishTextElement = document.querySelector('.wish-text');
+            const buttonContainer = document.querySelector('.button-container');
 
-            // วนลูปเพื่อลดขนาด font จนกว่าข้อความจะพอดีกับ element
-            while (element.scrollHeight > element.clientHeight && fontSize > minFontSize) {
-                fontSize -= 0.5; // ลดขนาด font ทีละ 0.5px
-                element.style.fontSize = `${fontSize}px`;
+            // คำนวณความสูงที่เหลือสำหรับการแสดงผลข้อความ
+            const availableHeight = cardElement.offsetHeight - cardElement.querySelector('h1').offsetHeight - cardElement.querySelector('.birthday-girl-photo').offsetHeight - cardElement.querySelector('.sender').offsetHeight - buttonContainer.offsetHeight;
+
+            let fontSize = 25; // กำหนดขนาด font เริ่มต้น
+            const minFontSize = 10; // กำหนดขนาด font ขั้นต่ำ
+            
+            // ตั้งค่า fontSize เริ่มต้นและรีเซ็ตการแสดงผล
+            wishTextElement.style.fontSize = `${fontSize}px`;
+            wishTextElement.style.height = 'auto'; // ให้ความสูงยืดหยุ่นได้
+
+            // วนลูปเพื่อลดขนาด font จนกว่าความสูงของข้อความจะไม่เกินพื้นที่ที่เหลือ
+            while (wishTextElement.scrollHeight > availableHeight && fontSize > minFontSize) {
+                fontSize -= 0.5;
+                wishTextElement.style.fontSize = `${fontSize}px`;
+            }
+
+            // ถ้าขนาด font ลดลงจนถึงขั้นต่ำแล้ว ข้อความยังล้นอยู่
+            if (wishTextElement.scrollHeight > availableHeight && fontSize <= minFontSize) {
+                // ให้ซ่อนส่วนที่ล้น และแสดง...
+                wishTextElement.style.overflowY = 'hidden';
+            } else {
+                wishTextElement.style.overflowY = 'visible';
             }
         }
-
+        
         // JavaScript สำหรับการกำหนดตำแหน่งและขนาดแบบสุ่มของรูปภาพ Colonel
         document.addEventListener('DOMContentLoaded', () => {
             const colonelImage = document.getElementById('colonelImage'); // เลือกรูปภาพตัวเดียว
@@ -246,7 +263,11 @@
             const fullScreenColonelSrc = "https://i.postimg.cc/wBWCwTyf/colonel-mobile-stand-gif2.gif";
 
             // เรียกฟังก์ชันปรับขนาด font ทันทีหลังจาก DOM โหลดเสร็จและข้อความถูกตั้งค่าแล้ว
-            adjustFontSize(wishDisplay);
+            adjustFontSize();
+
+            // เพิ่ม Event Listener สำหรับการปรับขนาดหน้าจอ
+            window.addEventListener('resize', adjustFontSize);
+
 
             // Function to set a random position and size for the image
             function setRandomPositionAndSize(imgElement) {
