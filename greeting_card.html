@@ -231,7 +231,9 @@
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const wish = decodeURIComponent(urlParams.get('wish'));
+        // แก้ไขส่วนนี้เพื่อดึงค่าจากพารามิเตอร์ที่ถูกต้อง
+        // `wish` จะมาจาก `index.html` ที่ถูกแก้ไปแล้ว
+        const wish = decodeURIComponent(urlParams.get('combinedWish'));
         const sender = decodeURIComponent(urlParams.get('sender'));
         const wishDisplay = document.getElementById('wishDisplay');
 
