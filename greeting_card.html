@@ -95,7 +95,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             padding: 50px;
-            width: 90%; /* ปรับความกว้างจาก 70% เป็น 90% */
+            width: 90%;
             max-width: 500px;
             position: relative;
             z-index: 10;
@@ -184,21 +184,27 @@
             to { transform: scale(1.1); }
         }
 
+        /* โค้ดที่ปรับปรุงสำหรับหน้าจอเล็ก */
         @media (max-width: 600px) {
             .greeting-card {
-                padding: 30px; /* เพิ่ม padding จาก 20px เป็น 30px */
-                width: 90%; /* ตรวจสอบให้แน่ใจว่าการ์ดกว้าง 90% ของหน้าจอ */
+                /* เพิ่ม padding เพื่อให้การ์ดดูใหญ่ขึ้น */
+                padding: 40px;
+                /* ให้การ์ดกว้าง 95% ของหน้าจอ */
+                width: 95%;
             }
             h1 {
-                font-size: 2.5rem; /* เพิ่มขนาด font สำหรับ h1 จาก 2rem เป็น 2.5rem */
+                /* เพิ่มขนาด font สำหรับ h1 ให้เท่ากับหน้าจอ desktop */
+                font-size: 3rem;
             }
             .wish-text {
-                font-size: 1.4rem; /* เพิ่มขนาด font สำหรับข้อความอวยพรจาก 1.2rem เป็น 1.4rem */
-                max-height: 150px;
+                /* เพิ่มขนาด font สำหรับข้อความอวยพรให้เท่ากับหน้าจอ desktop */
+                font-size: 1.6rem;
+                max-height: 180px; /* เพิ่มความสูงสูงสุดของกล่องข้อความ */
             }
             .birthday-girl-photo {
-                width: 100px;
-                height: 100px;
+                /* เพิ่มขนาดรูปภาพให้ใหญ่ขึ้น */
+                width: 120px;
+                height: 120px;
             }
         }
     </style>
