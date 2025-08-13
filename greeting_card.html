@@ -8,16 +8,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS ทั่วไป */
+        /* CSS ที่ปรับปรุงใหม่เพื่อบังคับให้เต็มหน้าจอ */
         html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
+            height: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
             font-family: 'Kanit', sans-serif;
             text-align: center;
         }
-
+        
         body {
             background-color: #f0f0f0;
             display: flex;
@@ -25,14 +26,27 @@
             align-items: center;
         }
 
+        .full-screen-container {
+            /* โค้ดใหม่ที่ใช้ครอบเนื้อหาทั้งหมด เพื่อพยายามบังคับให้เต็มหน้าจอ */
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
         .balloon-background {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: linear-gradient(135deg, #a864d3, #6a0dad);
-            z-index: -1;
+            z-index: -2;
             overflow: hidden;
         }
         .balloon-background span {
@@ -42,7 +56,6 @@
         }
         .balloon-background span:nth-child(odd) { background: rgba(255, 255, 255, 0.5); }
         .balloon-background span:nth-child(even) { background: rgba(192, 0, 255, 0.5); }
-
         .balloon-background span:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 8s; animation-delay: 0s; }
         .balloon-background span:nth-child(2) { width: 50px; height: 50px; left: 25%; animation-duration: 10s; animation-delay: 1s; }
         .balloon-background span:nth-child(3) { width: 30px; height: 30px; left: 40%; animation-duration: 7s; animation-delay: 2s; }
@@ -58,7 +71,6 @@
         .balloon-background span:nth-child(13) { width: 20px; height: 20px; left: 80%; animation-duration: 7s; animation-delay: 6.5s; }
         .balloon-background span:nth-child(14) { width: 50px; height: 50px; left: 30%; animation-duration: 12.5s; animation-delay: 7.5s; }
         .balloon-background span:nth-child(15) { width: 35px; height: 35px; left: 45%; animation-duration: 10s; animation-delay: 8.5s; }
-
         @keyframes floatUp {
             0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
             50% { opacity: 1; }
@@ -73,9 +85,8 @@
             cursor: pointer;
             transition: all 0.5s ease-in-out;
         }
-
         .random-colonel-image.full-screen-colonel {
-            position: fixed;
+            position: fixed !important;
             top: 0 !important;
             left: 0 !important;
             width: 100vw !important;
@@ -84,33 +95,11 @@
             z-index: 9999;
             animation: none !important;
         }
-
         @keyframes colonelFloat {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                opacity: 0.7;
-            }
-            50% {
-                transform: translateY(-15px) scale(1.05);
-                opacity: 1;
-            }
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-15px) scale(1.05); opacity: 1; }
         }
         
-        .greeting-card-container {
-            /* CSS ที่ถูกเพิ่มเข้ามาใหม่ เพื่อครอบคลุมเนื้อหาทั้งหมดให้เต็มหน้าจอ
-                ทำให้ตัวการ์ดอยู่ตรงกลางและขยายตามขนาดหน้าจออย่างเหมาะสม
-            */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
         .greeting-card {
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -118,12 +107,11 @@
             width: 90%;
             max-width: 500px;
             position: relative;
-            z-index: 10;
+            z-index: 1;
             animation: fadeIn 1s ease-in-out;
             margin: 20px;
             max-height: 90vh;
             overflow-y: auto;
-
             background-image: url('https://i.postimg.cc/J4bQ16qM/card-bg1.jpg');
             background-size: cover;
             background-position: center;
@@ -184,7 +172,6 @@
             background-color: #6a0dad;
             transform: translateY(-2px);
         }
-
         .emoji-decoration {
             font-size: 3rem;
             animation: pop 1s ease-in-out infinite alternate;
@@ -204,7 +191,7 @@
             to { transform: scale(1.1); }
         }
 
-        /* โค้ดที่ปรับปรุงใหม่สำหรับมือถือให้เต็มจอ */
+        /* โค้ดที่ปรับปรุงสำหรับมือถือให้เต็มจอ */
         @media (max-width: 600px) {
             .greeting-card {
                 width: 100vw;
@@ -220,29 +207,19 @@
                 justify-content: center;
                 box-sizing: border-box;
             }
-            h1 {
-                font-size: 4rem;
-            }
+            h1 { font-size: 4rem; }
             .wish-text {
                 font-size: 2rem;
                 max-height: unset;
                 overflow-y: hidden;
             }
-            .sender {
-                font-size: 1.5rem;
-            }
+            .sender { font-size: 1.5rem; }
             .birthday-girl-photo {
                 width: 150px;
                 height: 150px;
             }
-            .emoji-decoration.left {
-                top: 10px;
-                left: 10px;
-            }
-            .emoji-decoration.right {
-                bottom: 10px;
-                right: 10px;
-            }
+            .emoji-decoration.left { top: 10px; left: 10px; }
+            .emoji-decoration.right { bottom: 10px; right: 10px; }
         }
     </style>
 </head>
@@ -253,9 +230,8 @@
         <span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <img src="https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif" class="random-colonel-image" id="colonelImage">
-    
-    <div class="greeting-card-container">
+    <div class="full-screen-container">
+        <img src="https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif" class="random-colonel-image" id="colonelImage">
         <div class="greeting-card">
             <span class="emoji-decoration left">🎉</span>
             <span class="emoji-decoration right">🎁</span>
@@ -271,6 +247,26 @@
     </div>
     
     <script>
+        // โค้ด JavaScript ที่เพิ่มเข้ามาเพื่อปรับขนาดให้เต็มหน้าจอ
+        function resizeToFit() {
+            const body = document.body;
+            const html = document.documentElement;
+            body.style.width = `${window.innerWidth}px`;
+            body.style.height = `${window.innerHeight}px`;
+            html.style.width = `${window.innerWidth}px`;
+            html.style.height = `${window.innerHeight}px`;
+
+            const fullScreenContainer = document.querySelector('.full-screen-container');
+            if (fullScreenContainer) {
+                fullScreenContainer.style.width = `${window.innerWidth}px`;
+                fullScreenContainer.style.height = `${window.innerHeight}px`;
+            }
+        }
+
+        // เรียกใช้ฟังก์ชันเมื่อหน้าเว็บโหลดและเมื่อมีการปรับขนาดหน้าจอ
+        window.addEventListener('load', resizeToFit);
+        window.addEventListener('resize', resizeToFit);
+
         const urlParams = new URLSearchParams(window.location.search);
         const wish = decodeURIComponent(urlParams.get('wish'));
         const sender = decodeURIComponent(urlParams.get('sender'));
@@ -287,10 +283,8 @@
             function setRandomPositionAndSize(imgElement) {
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
-
                 const minWidth = 150;
                 const maxWidth = Math.min(300, viewportWidth * 0.4);
-
                 const randomWidth = Math.floor(Math.random() * (maxWidth - minWidth + 1)) + minWidth;
                 
                 imgElement.style.width = `${randomWidth}px`;
@@ -299,10 +293,8 @@
                 setTimeout(() => {
                     const currentImgWidth = imgElement.offsetWidth;
                     const currentImgHeight = imgElement.offsetHeight;
-
                     const randomLeft = Math.random() * (viewportWidth - currentImgWidth);
                     const randomTop = Math.random() * (viewportHeight - currentImgHeight);
-
                     imgElement.style.left = `${randomLeft}px`;
                     imgElement.style.top = `${randomTop}px`;
                 }, 0);
@@ -328,9 +320,7 @@
             function handleColonelClick(event) {
                 event.preventDefault();
                 event.stopPropagation();
-
                 clearInterval(randomIntervalId);
-
                 colonelImage.src = fullScreenColonelSrc;
                 colonelImage.classList.add('full-screen-colonel');
                 colonelImage.style.left = '';
