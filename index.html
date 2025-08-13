@@ -187,16 +187,25 @@
                 <label for="wish2"><img src="https://i.postimg.cc/8kLWnPbz/fc02.jpg"><br>ร่างกายแข็งแรง</label>
             </div>
             <div class="menu-item">
-                <input type="checkbox" id="wish3" name="selectedWish" value="ร่ำรวย !!">
-                <label for="wish3"><img src="https://i.postimg.cc/VkkC69PJ/fc03.jpg"><br>ร่ำรวย !!</label>
+                <input type="checkbox" id="wish3" name="selectedWish" value="ร่ำรวย ๆ">
+                <label for="wish3"><img src="https://i.postimg.cc/VkkC69PJ/fc03.jpg"><br>ร่ำรวย ๆ</label>
             </div>
             <div class="menu-item">
                 <input type="checkbox" id="wish4" name="selectedWish" value="เป็นเซ็นเตอร์">
                 <label for="wish4"><img src="https://i.postimg.cc/ZKZ3ktfF/fc04.jpg"><br>เป็นเซ็นเตอร์</label>
             </div>
             <div class="menu-item">
-                <input type="checkbox" id="wish5" name="selectedWish" value="ส๊วย!!">
-                <label for="wish5"><img src="https://i.postimg.cc/Yq3FMnZc/fc05.jpg"><br>ส๊วย!!</label>
+                <input type="checkbox" id="wish5" name="selectedWish" value="ส๊วย !!">
+                <label for="wish5"><img src="https://i.postimg.cc/Yq3FMnZc/fc05.jpg"><br>ส๊วย !!</label>
+            </div>
+            <!-- เมนูอาหารที่เพิ่มเข้ามาใหม่ -->
+            <div class="menu-item">
+                <input type="checkbox" id="food1" name="selectedWish" value="ไม่ปวดหลัง">
+                <label for="food1"><img src="https://i.postimg.cc/652G2BMY/fc06.jpg"><br>ไม่ปวดหลัง</label>
+            </div>
+            <div class="menu-item">
+                <input type="checkbox" id="food2" name="selectedWish" value="อายุ วณฺโณ สุขํ พลํ สาาาธุ">
+                <label for="food2"><img src="https://i.postimg.cc/pXw5K37x/fc07.jpg"><br>อายุ วณฺโณ สุขํ พลํ สาาาธุ</label>
             </div>
         </div>
 
@@ -206,7 +215,7 @@
         </div>
 
         <div class="sender-info">
-            <h2>สั่งโดยใครครับ? (ลงชื่อ)</h2>
+            <h2>ลงชื่อผู้ออเดอร์</h2>
             <input type="text" id="senderName" name="sender" placeholder="ชื่อของคุณ">
         </div>
 
@@ -217,7 +226,7 @@
         const form = document.getElementById('wishForm');
         form.addEventListener('submit', function(e) {
             const selectedWishes = Array.from(document.querySelectorAll('input[name="selectedWish"]:checked'))
-                                      .map(checkbox => checkbox.value);
+                                       .map(checkbox => checkbox.value);
             const customWishText = document.getElementById('customWish').value;
 
             if (selectedWishes.length === 0 && customWishText.trim() === '') {
@@ -245,17 +254,17 @@
                 if (finalWish !== '') {
                     finalWish += '\n\n';
                 }
-                    finalWish += customWishText;
-                }
+                finalWish += customWishText;
+            }
             
-                combinedWishInput.value = finalWish;
-                form.appendChild(combinedWishInput);
+            combinedWishInput.value = finalWish;
+            form.appendChild(combinedWishInput);
             
-                document.querySelectorAll('input[name="selectedWish"]').forEach(checkbox => {
-                    checkbox.name = '';
-                });
-                document.getElementById('customWish').name = '';
+            document.querySelectorAll('input[name="selectedWish"]').forEach(checkbox => {
+                checkbox.name = '';
             });
-        </script>
-    </body>
+            document.getElementById('customWish').name = '';
+        });
+    </script>
+</body>
 </html>
