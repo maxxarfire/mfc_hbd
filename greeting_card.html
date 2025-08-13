@@ -8,21 +8,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS ที่ถูกปรับแก้ใหม่เพื่อบังคับให้เต็มหน้าจอ */
+        /* CSS ทั่วไป */
         html, body {
-            height: 100%; /* บังคับให้ HTML และ Body สูงเต็มจอ */
+            height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* ป้องกันการเลื่อนหน้าจอที่ไม่ต้องการ */
+            overflow: hidden;
+            font-family: 'Kanit', sans-serif;
+            text-align: center;
         }
 
         body {
-            font-family: 'Kanit', sans-serif;
             background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
         }
 
         .balloon-background {
@@ -94,6 +94,21 @@
                 transform: translateY(-15px) scale(1.05);
                 opacity: 1;
             }
+        }
+        
+        .greeting-card-container {
+            /* CSS ที่ถูกเพิ่มเข้ามาใหม่ เพื่อครอบคลุมเนื้อหาทั้งหมดให้เต็มหน้าจอ
+                ทำให้ตัวการ์ดอยู่ตรงกลางและขยายตามขนาดหน้าจออย่างเหมาะสม
+            */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
         }
 
         .greeting-card {
@@ -192,7 +207,6 @@
         /* โค้ดที่ปรับปรุงใหม่สำหรับมือถือให้เต็มจอ */
         @media (max-width: 600px) {
             .greeting-card {
-                /* บังคับให้การ์ดเต็มหน้าจอทั้งกว้างและสูง */
                 width: 100vw;
                 height: 100vh;
                 max-width: none;
@@ -212,7 +226,7 @@
             .wish-text {
                 font-size: 2rem;
                 max-height: unset;
-                overflow-y: hidden; /* ป้องกัน scrollbar ในส่วนข้อความ */
+                overflow-y: hidden;
             }
             .sender {
                 font-size: 1.5rem;
@@ -240,20 +254,22 @@
     </div>
 
     <img src="https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif" class="random-colonel-image" id="colonelImage">
-
-    <div class="greeting-card">
-        <span class="emoji-decoration left">🎉</span>
-        <span class="emoji-decoration right">🎁</span>
-        <img src="https://i.postimg.cc/cCrZZtY8/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo">
-        <h1>สุขสันต์วันเกิดนะ โมบาย!</h1>
-        <p class="wish-text" id="wishDisplay"></p>
-        <p class="sender" id="senderDisplay"></p>
-        
-        <div class="button-container">
-            <a href="history.html" class="history-button">ดูประวัติคำอวยพรทั้งหมด</a>
+    
+    <div class="greeting-card-container">
+        <div class="greeting-card">
+            <span class="emoji-decoration left">🎉</span>
+            <span class="emoji-decoration right">🎁</span>
+            <img src="https://i.postimg.cc/cCrZZtY8/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo">
+            <h1>สุขสันต์วันเกิดนะ โมบาย!</h1>
+            <p class="wish-text" id="wishDisplay"></p>
+            <p class="sender" id="senderDisplay"></p>
+            
+            <div class="button-container">
+                <a href="history.html" class="history-button">ดูประวัติคำอวยพรทั้งหมด</a>
+            </div>
         </div>
     </div>
-
+    
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const wish = decodeURIComponent(urlParams.get('wish'));
