@@ -238,16 +238,20 @@
                 <label for="wish4"><img src="https://i.postimg.cc/ZKZ3ktfF/fc04.jpg"><br>เป็นเซ็นเตอร์</label>
             </div>
             <div class="menu-item">
-                <input type="checkbox" id="wish5" name="selectedWish" value="ส๊วย !!">
-                <label for="wish5"><img src="https://i.postimg.cc/Yq3FMnZc/fc05.jpg"><br>ส๊วย !!</label>
+                <input type="checkbox" id="wish5" name="selectedWish" value="สดชื่นแจ่มใส">
+                <label for="wish5"><img src="https://i.postimg.cc/Yq3FMnZc/fc05.jpg"><br>สดชื่นแจ่มใส</label>
             </div>
             <div class="menu-item">
                 <input type="checkbox" id="food1" name="selectedWish" value="ไม่ปวดหลัง">
                 <label for="food1"><img src="https://i.postimg.cc/652G2BMY/fc06.jpg"><br>ไม่ปวดหลัง</label>
             </div>
             <div class="menu-item">
-                <input type="checkbox" id="food2" name="selectedWish" value="อายุ วณฺโณ สุขํ พลํ สาาาธุ">
-                <label for="food2"><img src="https://i.postimg.cc/pXw5K37x/fc07.jpg"><br>อายุ วณฺโณ สุขํ พลํ สาาาธุ</label>
+                <input type="checkbox" id="food2" name="selectedWish" value="อายุ วณฺโณ สุขํ พลํ">
+                <label for="food2"><img src="https://i.postimg.cc/pXw5K37x/fc07.jpg"><br>อายุ วณฺโณ สุขํ พลํ</label>
+            </div>
+            <div class="menu-item">
+                <input type="checkbox" id="wish8" name="selectedWish" value="ส๊วย !!">
+                <label for="wish8"><img src="https://i.postimg.cc/52qBpBfN/fc08.jpg"><br>ส๊วย !!</label>
             </div>
         </div>
 
@@ -307,7 +311,7 @@
 
             // รวบรวมข้อมูลจากฟอร์ม
             const selectedWishes = Array.from(document.querySelectorAll('input[name="selectedWish"]:checked'))
-                                       .map(checkbox => checkbox.value);
+                                             .map(checkbox => checkbox.value);
             const customWishText = document.getElementById('customWish').value;
             const sender = document.getElementById('senderName').value;
 
@@ -355,11 +359,11 @@
                     const result = await response.json();
                     
                     if (result.status === 'success') {
-                         // หาก Apps Script ทำงานสำเร็จ ให้ Redirect ไปยังหน้า Vercel
-                         const redirectUrl = `https://mfc-hbd.vercel.app/greeting_card.html?wish=${encodeURIComponent(finalWish)}&sender=${encodeURIComponent(sender)}`;
-                         window.location.href = redirectUrl;
+                            // หาก Apps Script ทำงานสำเร็จ ให้ Redirect ไปยังหน้า Vercel
+                            const redirectUrl = `https://mfc-hbd.vercel.app/greeting_card.html?wish=${encodeURIComponent(finalWish)}&sender=${encodeURIComponent(sender)}`;
+                            window.location.href = redirectUrl;
                     } else {
-                         showMessage(`เกิดข้อผิดพลาด: ${result.message}`, true);
+                            showMessage(`เกิดข้อผิดพลาด: ${result.message}`, true);
                     }
                 } else {
                     showMessage('เกิดข้อผิดพลาดในการส่งข้อมูลไปยังเซิร์ฟเวอร์', true);
