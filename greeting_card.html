@@ -303,6 +303,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const colonelImage = document.getElementById('colonelImage');
             const greetingCard = document.getElementById('greetingCard');
+            const socialShareContainer = document.getElementById('socialShareContainer'); // Get the container
             let randomIntervalId;
             const originalColonelSrc = "https://mfc-hbd.vercel.app/colonel_mobile_stand1.gif";
             const fullScreenColonelSrc = "https://mfc-hbd.vercel.app/colonel_mobile_stand_gif2.gif";
@@ -387,6 +388,7 @@
                 // ซ่อนปุ่มและ Colonel ก่อนทำการแคปเจอร์
                 saveButton.style.display = 'none';
                 colonelImage.style.display = 'none';
+                socialShareContainer.style.display = 'none'; // NEW CODE: Hide social share buttons
                 clearInterval(randomIntervalId);
 
                 // เพิ่ม class เพื่อหยุด animation ชั่วคราว
@@ -411,6 +413,7 @@
                                 // แสดงปุ่มและภาพ Colonel กลับมาอีกครั้ง
                                 saveButton.style.display = 'inline-block';
                                 colonelImage.style.display = 'block';
+                                socialShareContainer.style.display = 'flex'; // NEW CODE: Show social share buttons again
                                 startRandomMovement();
 
                                 // นำ class ที่ใช้หยุด animation ออก
@@ -421,6 +424,7 @@
                                 // กรณีเกิดข้อผิดพลาด ให้แสดงทุกอย่างกลับมาเหมือนเดิม
                                 saveButton.style.display = 'inline-block';
                                 colonelImage.style.display = 'block';
+                                socialShareContainer.style.display = 'flex'; // NEW CODE: Show social share buttons on error
                                 startRandomMovement();
                                 document.body.classList.remove('no-animation');
                                 greetingCard.classList.remove('no-animation');
@@ -432,6 +436,7 @@
                         // กรณีเกิดข้อผิดพลาด ให้แสดงทุกอย่างกลับมาเหมือนเดิม
                         saveButton.style.display = 'inline-block';
                         colonelImage.style.display = 'block';
+                        socialShareContainer.style.display = 'flex'; // NEW CODE: Show social share buttons on error
                         startRandomMovement();
                         document.body.classList.remove('no-animation');
                         greetingCard.classList.remove('no-animation');
