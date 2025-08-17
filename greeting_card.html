@@ -7,47 +7,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Import html2canvas library for saving images -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
-        /* CSS ที่ปรับปรุงใหม่เพื่อบังคับให้เต็มหน้าจอ */
-        html, body {
-            height: 100% !important;
-            width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow: hidden !important;
-            font-family: 'Kanit', sans-serif;
-            text-align: center;
-        }
-        
         body {
+            font-family: 'Kanit', sans-serif;
             background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            overflow: hidden; /* Prevent body scrolling */
         }
-
-        .full-screen-container {
-            /* โค้ดใหม่ที่ใช้ครอบเนื้อหาทั้งหมด เพื่อพยายามบังคับให้เต็มหน้าจอ */
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
+        /* CSS for balloon animation background */
         .balloon-background {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, #a864d3, #6a0dad);
-            z-index: -2;
+            z-index: -1;
             overflow: hidden;
         }
         .balloon-background span {
@@ -55,8 +39,10 @@
             border-radius: 50%;
             animation: floatUp linear infinite;
         }
+        /* Define balloon colors and sizes */
         .balloon-background span:nth-child(odd) { background: rgba(255, 255, 255, 0.5); }
         .balloon-background span:nth-child(even) { background: rgba(192, 0, 255, 0.5); }
+        /* Define size, starting position, and speed for each balloon */
         .balloon-background span:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 8s; animation-delay: 0s; }
         .balloon-background span:nth-child(2) { width: 50px; height: 50px; left: 25%; animation-duration: 10s; animation-delay: 1s; }
         .balloon-background span:nth-child(3) { width: 30px; height: 30px; left: 40%; animation-duration: 7s; animation-delay: 2s; }
@@ -77,7 +63,7 @@
             50% { opacity: 1; }
             100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
         }
-
+        /* CSS for the randomly floating Colonel image */
         .random-colonel-image {
             position: absolute;
             height: auto;
@@ -86,8 +72,9 @@
             cursor: pointer;
             transition: all 0.5s ease-in-out;
         }
+        /* New CSS for full screen Colonel */
         .random-colonel-image.full-screen-colonel {
-            position: fixed !important;
+            position: fixed;
             top: 0 !important;
             left: 0 !important;
             width: 100vw !important;
@@ -97,23 +84,28 @@
             animation: none !important;
         }
         @keyframes colonelFloat {
-            0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
-            50% { transform: translateY(-15px) scale(1.05); opacity: 1; }
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-15px) scale(1.05);
+                opacity: 1;
+            }
         }
-        
         .greeting-card {
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             padding: 50px;
-            width: 90%;
+            width: 70%;
             max-width: 500px;
             position: relative;
-            z-index: 1;
+            z-index: 10;
             animation: fadeIn 1s ease-in-out;
             margin: 20px;
             max-height: 90vh;
             overflow-y: auto;
-            /* แก้ไข: ย้ายการตั้งค่าพื้นหลังมาเป็นส่วนหนึ่งของโค้ด HTML เพื่อให้ html2canvas ประมวลผลได้ */
+            background-image: url('https://mfc-hbd.vercel.app/card_bg1.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -164,16 +156,24 @@
             font-size: 1.1rem;
             color: white;
             background-color: #8a2be2;
-            border: none;
             border-radius: 50px;
             text-decoration: none;
-            cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            border: none;
         }
         .save-button:hover {
             background-color: #6a0dad;
             transform: translateY(-2px);
+        }
+        /* New CSS for loading message - It's always hidden */
+        .loading-message {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #8a2be2;
+            font-weight: 700;
+            display: none;
         }
         .emoji-decoration {
             font-size: 3rem;
@@ -193,129 +193,55 @@
             from { transform: scale(1); }
             to { transform: scale(1.1); }
         }
-
-        /* โค้ดที่ปรับปรุงสำหรับมือถือให้เต็มจอ */
+        /* Code added to adjust card size on small screens */
         @media (max-width: 600px) {
             .greeting-card {
-                width: 100vw;
-                height: 100vh;
-                max-width: none;
-                margin: 0;
-                border-radius: 0;
                 padding: 20px;
-                box-shadow: none;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                box-sizing: border-box;
             }
-            h1 { font-size: 4rem; }
-            .wish-text {
+            h1 {
                 font-size: 2rem;
-                max-height: unset;
-                overflow-y: hidden;
             }
-            .sender { font-size: 1.5rem; }
+            .wish-text {
+                font-size: 1.2rem;
+                max-height: 150px;
+            }
             .birthday-girl-photo {
-                width: 150px;
-                height: 150px;
+                width: 100px;
+                height: 100px;
             }
-            .emoji-decoration.left { top: 10px; left: 10px; }
-            .emoji-decoration.right { bottom: 10px; right: 10px; }
         }
-
-        /* ส่วนเพิ่มเติม: CSS สำหรับ Loader */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 10000;
-            font-size: 1.5rem;
-            color: #8a2be2;
-            transition: opacity 0.5s ease;
-        }
-
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #8a2be2;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1.5s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* ----- CSS ที่เพิ่มเข้ามา ----- */
-        /* Class สำหรับหยุด Animation ชั่วคราวก่อน Capture ภาพ */
+        
+        /* New CSS to disable animations */
         .no-animation, .no-animation * {
             animation: none !important;
             transition: none !important;
         }
-        /* ----- จบส่วนที่เพิ่มเข้ามา ----- */
-
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loader"></div>
-        <p style="margin-top: 20px;">กำลังโหลด... โปรดรอสักครู่</p>
-    </div>
-
     <div class="balloon-background">
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <div class="full-screen-container" id="card-to-capture" style="opacity: 0; transition: opacity 0.5s ease;">
-        <img src="https://mfc-hbd.vercel.app/colonel_mobile_stand1.gif" class="random-colonel-image" id="colonelImage">
-        <div class="greeting-card" id="greetingCard" style="background-image: url('https://mfc-hbd.vercel.app/card_bg1.jpg');">
-            <span class="emoji-decoration left">🎉</span>
-            <span class="emoji-decoration right">🎁</span>
-            <img src="https://mfc-hbd.vercel.app/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo" id="birthdayGirlPhoto">
-            <h1>สุขสันต์วันเกิดนะ โมบาย!</h1>
-            <p class="wish-text" id="wishDisplay"></p>
-            <p class="sender" id="senderDisplay"></p>
-            
-            <div class="button-container">
-                <button id="saveButton" class="save-button" disabled>บันทึกการ์ด</button>
-            </div>
+    <img src="https://mfc-hbd.vercel.app/colonel_mobile_stand1.gif" class="random-colonel-image" id="colonelImage">
+
+    <div class="greeting-card" id="greetingCard">
+        <span class="emoji-decoration left">🎉</span>
+        <span class="emoji-decoration right">🎁</span>
+        <img src="https://mfc-hbd.vercel.app/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo" id="birthdayGirlPhoto">
+        <h1>สุขสันต์วันเกิดนะ โมบาย!</h1>
+        <p class="wish-text" id="wishDisplay"></p>
+        <p class="sender" id="senderDisplay"></p>
+        
+        <div class="button-container">
+            <button id="saveButton" class="save-button">บันทึกการ์ดอวยพร</button>
+            <div id="loadingMessage" class="loading-message">กำลังบันทึก...</div>
         </div>
     </div>
-    
+
     <script>
-        // โค้ด JavaScript ที่เพิ่มเข้ามาเพื่อปรับขนาดให้เต็มหน้าจอ
-        function resizeToFit() {
-            const body = document.body;
-            const html = document.documentElement;
-            body.style.width = `${window.innerWidth}px`;
-            body.style.height = `${window.innerHeight}px`;
-            html.style.width = `${window.innerWidth}px`;
-            html.style.height = `${window.innerHeight}px`;
-
-            const fullScreenContainer = document.querySelector('.full-screen-container');
-            if (fullScreenContainer) {
-                fullScreenContainer.style.width = `${window.innerWidth}px`;
-                fullScreenContainer.style.height = `${window.innerHeight}px`;
-            }
-        }
-
-        // เรียกใช้ฟังก์ชันเมื่อหน้าเว็บโหลดและเมื่อมีการปรับขนาดหน้าจอ
-        window.addEventListener('load', resizeToFit);
-        window.addEventListener('resize', resizeToFit);
-
         const urlParams = new URLSearchParams(window.location.search);
         const wish = decodeURIComponent(urlParams.get('wish'));
         const sender = decodeURIComponent(urlParams.get('sender'));
@@ -325,60 +251,11 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const colonelImage = document.getElementById('colonelImage');
-            const birthdayGirlPhoto = document.getElementById('birthdayGirlPhoto');
             const greetingCard = document.getElementById('greetingCard');
-            const saveButton = document.getElementById('saveButton');
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            const cardToCaptureContainer = document.getElementById('card-to-capture');
-            
             let randomIntervalId;
             const originalColonelSrc = "https://mfc-hbd.vercel.app/colonel_mobile_stand1.gif";
             const fullScreenColonelSrc = "https://mfc-hbd.vercel.app/colonel_mobile_stand_gif2.gif";
 
-            // ฟังก์ชันตรวจสอบการโหลดรูปภาพ
-            function loadImages(imageUrl) {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = () => resolve();
-                    img.onerror = () => reject(new Error(`Failed to load image at ${imageUrl}`));
-                    img.src = imageUrl;
-                });
-            }
-
-            // ฟังก์ชันเริ่มการทำงานเมื่อรูปภาพทั้งหมดโหลดเสร็จ
-            async function initializeApp() {
-                try {
-                    // รอให้รูปภาพทั้งหมดโหลดเสร็จ
-                    await Promise.all([
-                        loadImages(birthdayGirlPhoto.src),
-                        loadImages(colonelImage.src),
-                        loadImages("https://mfc-hbd.vercel.app/card_bg1.jpg")
-                    ]);
-
-                    // ซ่อนหน้าจอโหลดและแสดงการ์ด
-                    loadingOverlay.style.opacity = '0';
-                    loadingOverlay.addEventListener('transitionend', () => {
-                        loadingOverlay.style.display = 'none';
-                    });
-                    cardToCaptureContainer.style.opacity = '1';
-
-                    // เปิดใช้งานปุ่มบันทึก
-                    saveButton.disabled = false;
-                    
-                    // เริ่มการเคลื่อนไหวของ Colonel
-                    startRandomMovement();
-                    colonelImage.addEventListener('click', handleColonelClick);
-                    colonelImage.addEventListener('touchstart', handleColonelClick);
-
-                } catch (error) {
-                    console.error("Error loading images:", error);
-                    // ในกรณีที่โหลดรูปภาพไม่สำเร็จ ให้แสดงข้อความเตือน
-                    loadingOverlay.style.display = 'none';
-                    cardToCaptureContainer.style.opacity = '1';
-                    // สามารถเพิ่มข้อความแจ้งเตือนผู้ใช้ได้ที่นี่
-                }
-            }
-            
             function setRandomPositionAndSize(imgElement) {
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
@@ -401,11 +278,20 @@
 
             function startRandomMovement() {
                 colonelImage.src = originalColonelSrc;
-                setRandomPositionAndSize(colonelImage);
+                if (colonelImage.complete) {
+                    setRandomPositionAndSize(colonelImage);
+                } else {
+                    colonelImage.onload = () => setRandomPositionAndSize(colonelImage);
+                }
                 randomIntervalId = setInterval(() => {
                     setRandomPositionAndSize(colonelImage);
                 }, 1000);
             }
+
+            startRandomMovement();
+
+            colonelImage.addEventListener('click', handleColonelClick);
+            colonelImage.addEventListener('touchstart', handleColonelClick);
 
             function handleColonelClick(event) {
                 event.preventDefault();
@@ -425,48 +311,81 @@
                 }, 2000);
             }
 
-            // ----- ส่วนที่แก้ไข เริ่มต้น -----
-            // เพิ่มโค้ดสำหรับปุ่ม "บันทึกการ์ด"
+            const saveButton = document.getElementById('saveButton');
+            const loadingMessage = document.getElementById('loadingMessage');
+
+            function preloadImages(imageUrls) {
+                const promises = imageUrls.map(url => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => resolve(img);
+                        img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+                        img.src = url;
+                        img.crossOrigin = 'anonymous'; 
+                    });
+                });
+                return Promise.all(promises);
+            }
+
+            const imageUrlsToPreload = [
+                'https://mfc-hbd.vercel.app/card_bg1.jpg',
+                'https://mfc-hbd.vercel.app/mobile02.webp'
+            ];
+
             saveButton.addEventListener('click', () => {
-                // ซ่อนปุ่ม "บันทึกการ์ด" และภาพ Colonel ก่อนทำการแคปเจอร์
+                // ซ่อนปุ่มและ Colonel ก่อนทำการแคปเจอร์
                 saveButton.style.display = 'none';
                 colonelImage.style.display = 'none';
+                clearInterval(randomIntervalId);
 
                 // เพิ่ม class เพื่อหยุด animation ชั่วคราว
+                document.body.classList.add('no-animation');
                 greetingCard.classList.add('no-animation');
 
-                // ใช้ setTimeout เพื่อให้แน่ใจว่า DOM อัปเดตเสร็จก่อนที่จะทำการแคปเจอร์
-                // และเพิ่มดีเลย์เป็น 300ms เพื่อความแน่นอน
-                setTimeout(() => {
-                    html2canvas(greetingCard, {
-                        scale: 2,
-                        useCORS: true // สำคัญมาก: อนุญาตให้โหลดรูปภาพจากโดเมนอื่น
-                    }).then(canvas => {
-                        // สร้างลิงก์ชั่วคราวเพื่อดาวน์โหลดรูปภาพ
-                        const link = document.createElement('a');
-                        link.download = 'การ์ดอวยพร.jpg';
-                        link.href = canvas.toDataURL('image/jpeg', 1.0);
-                        link.click();
+                preloadImages(imageUrlsToPreload)
+                    .then(() => {
+                        // ใช้ setTimeout เพื่อให้แน่ใจว่า DOM อัปเดตเสร็จก่อนที่จะทำการแคปเจอร์
+                        setTimeout(() => {
+                            html2canvas(greetingCard, {
+                                scale: 2,
+                                useCORS: true
+                            }).then(canvas => {
+                                const link = document.createElement('a');
+                                link.download = 'การ์ดอวยพร.jpg';
+                                link.href = canvas.toDataURL('image/jpeg', 1.0);
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                
+                                // แสดงปุ่มและภาพ Colonel กลับมาอีกครั้ง
+                                saveButton.style.display = 'inline-block';
+                                colonelImage.style.display = 'block';
+                                startRandomMovement();
 
-                        // แสดงปุ่มและภาพ Colonel กลับมาอีกครั้ง
-                        saveButton.style.display = 'inline-block';
-                        colonelImage.style.display = 'block';
-
-                        // นำ class ที่ใช้หยุด animation ออก เพื่อให้ทุกอย่างกลับมาเคลื่อนไหวเหมือนเดิม
-                        greetingCard.classList.remove('no-animation');
-                    }).catch(err => {
+                                // นำ class ที่ใช้หยุด animation ออก
+                                document.body.classList.remove('no-animation');
+                                greetingCard.classList.remove('no-animation');
+                            }).catch(err => {
+                                console.error('oops, something went wrong!', err);
+                                // กรณีเกิดข้อผิดพลาด ให้แสดงทุกอย่างกลับมาเหมือนเดิม
+                                saveButton.style.display = 'inline-block';
+                                colonelImage.style.display = 'block';
+                                startRandomMovement();
+                                document.body.classList.remove('no-animation');
+                                greetingCard.classList.remove('no-animation');
+                            });
+                        }, 300);
+                    })
+                    .catch(err => {
+                        console.error('เกิดข้อผิดพลาดในการโหลดรูปภาพ:', err);
                         // กรณีเกิดข้อผิดพลาด ให้แสดงทุกอย่างกลับมาเหมือนเดิม
-                        console.error('oops, something went wrong!', err);
                         saveButton.style.display = 'inline-block';
                         colonelImage.style.display = 'block';
+                        startRandomMovement();
+                        document.body.classList.remove('no-animation');
                         greetingCard.classList.remove('no-animation');
                     });
-                }, 300); // ดีเลย์ 300ms เพื่อให้ Browser render ทัน
             });
-            // ----- ส่วนที่แก้ไข สิ้นสุด -----
-
-            // เริ่มต้นการทำงานของแอป
-            initializeApp();
         });
     </script>
 </body>
