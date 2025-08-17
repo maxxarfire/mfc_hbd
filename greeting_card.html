@@ -117,7 +117,7 @@
         h1 {
             color: #c000ff;
             margin-bottom: 20px;
-            font-size: 3rem;
+            font-size: 2.5rem;
             text-shadow: none;
         }
         .birthday-girl-photo {
@@ -129,7 +129,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
-        /* Updated font size for wish-text to match sender text */
         .wish-text {
             font-size: 1.2rem;
             color: #c000ff;
@@ -163,6 +162,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             border: none;
+            font-family: 'Kanit', sans-serif;
         }
         .save-button:hover {
             background-color: #6a0dad;
@@ -203,7 +203,7 @@
                 font-size: 2rem;
             }
             .wish-text {
-                font-size: 1.2rem;
+                font-size: 1rem;
                 max-height: 150px;
             }
             .birthday-girl-photo {
@@ -216,6 +216,13 @@
         .no-animation, .no-animation * {
             animation: none !important;
             transition: none !important;
+        }
+
+        /* NEW CODE: Added a media query to reduce font size for wishes and sender on mobile */
+        @media (max-width: 600px) {
+            .wish-text, .sender {
+                font-size: 0.8rem; /* Adjust this value to your liking, 1rem is 16px */
+            }
         }
     </style>
 </head>
