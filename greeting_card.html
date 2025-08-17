@@ -96,7 +96,7 @@
         .greeting-card {
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            padding: 50px;
+            padding: 30px;
             width: 70%;
             max-width: 500px;
             position: relative;
@@ -133,7 +133,7 @@
             font-size: 1.2rem;
             color: #c000ff;
             line-height: 1.8;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             white-space: pre-wrap;
             text-shadow: none;
             max-height: 200px;
@@ -144,11 +144,11 @@
             font-style: italic;
             color: #c000ff;
             font-size: 1.2rem;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             text-shadow: none;
         }
         .button-container {
-            margin-top: 30px;
+            margin-top: 15px;
         }
         .save-button {
             display: inline-block;
@@ -231,7 +231,7 @@
                 padding: 20px;
             }
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             .wish-text {
                 font-size: 1rem;
@@ -404,7 +404,7 @@
                                 useCORS: true
                             }).then(canvas => {
                                 const link = document.createElement('a');
-                                link.download = 'การ์ดอวยพร.jpg';
+                                link.download = 'การ์ดอวยพรโมบาย.jpg';
                                 link.href = canvas.toDataURL('image/jpeg', 1.0);
                                 document.body.appendChild(link);
                                 link.click();
