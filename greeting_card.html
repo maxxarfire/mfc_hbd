@@ -107,11 +107,20 @@
             margin: 20px;
             max-height: 90vh;
             overflow-y: auto;
-            background-image: url('https://i.postimg.cc/J4bQ16qM/card-bg1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
         }
+
+        /* NEW CSS for the background image element */
+        #cardBackground {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            z-index: -1; /* Placed behind all other content */
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -224,9 +233,14 @@
     <img src="https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif" class="random-colonel-image" id="colonelImage">
 
     <div class="greeting-card" id="greetingCard">
+        <!-- New <img> tag for the background image -->
+        <!-- We will dynamically set the src of this image using Base64 data -->
+        <img src="" alt="Card Background" id="cardBackground">
+
         <span class="emoji-decoration left">🎉</span>
         <span class="emoji-decoration right">🎁</span>
-        <img src="https://i.postimg.cc/cCrZZtY8/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo">
+        <!-- We will dynamically set the src of this image using Base64 data -->
+        <img src="" alt="รูปภาพโมบาย" class="birthday-girl-photo">
         <h1>สุขสันต์วันเกิดนะ โมบาย!</h1>
         <p class="wish-text" id="wishDisplay"></p>
         <p class="sender" id="senderDisplay"></p>
@@ -247,8 +261,43 @@
         document.getElementById('wishDisplay').textContent = wish;
         document.getElementById('senderDisplay').textContent = `จาก: ${sender}`;
 
-        // JavaScript for the random floating Colonel image
-        document.addEventListener('DOMContentLoaded', () => {
+        // =========================================================================
+        // New JavaScript to fetch images and convert them to Base64 data URLs
+        // This ensures html2canvas can capture them without any cross-origin issues.
+        // =========================================================================
+        async function loadAndConvertImageToBase64(url) {
+            try {
+                const response = await fetch(url, { mode: 'cors' });
+                const blob = await response.blob();
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                });
+            } catch (error) {
+                console.error('Error loading image:', error);
+                // Return a placeholder or empty string on failure to prevent app from breaking
+                return 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='; 
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const cardBackgroundUrl = 'https://i.postimg.cc/J4bQ16qM/card-bg1.jpg';
+            const profilePhotoUrl = 'https://i.postimg.cc/cCrZZtY8/mobile02.webp';
+            const colonelImageUrl = 'https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif';
+            
+            // Set up an array of promises for the images we need to embed
+            const [base64Background, base64Profile] = await Promise.all([
+                loadAndConvertImageToBase64(cardBackgroundUrl),
+                loadAndConvertImageToBase64(profilePhotoUrl)
+            ]);
+
+            // Set the src of the images to the Base64 data
+            document.getElementById('cardBackground').src = base64Background;
+            document.querySelector('.birthday-girl-photo').src = base64Profile;
+            
+            // JavaScript for the random floating Colonel image
             const colonelImage = document.getElementById('colonelImage');
             let randomIntervalId;
             const originalColonelSrc = "https://i.postimg.cc/XvFjh5WH/colonel-mobile-stand1.gif";
@@ -313,23 +362,12 @@
 
         // =========================================================================
         // Updated JavaScript for the "Save Card" button using html2canvas
-        // This version waits for all images to load and uses a new container for capture.
+        // This version no longer needs to wait for images, as they are now Base64.
         // =========================================================================
         document.getElementById('saveCardBtn').addEventListener('click', () => {
             const saveButton = document.getElementById('saveCardBtn');
             const cardElement = document.getElementById('greetingCard');
             
-            // Wait for all images within the card to be loaded.
-            const images = cardElement.querySelectorAll('img');
-            const imagePromises = Array.from(images).map(img => new Promise((resolve) => {
-                if (img.complete) {
-                    resolve();
-                } else {
-                    img.onload = resolve;
-                    img.onerror = resolve; // Resolve even on error to prevent hanging
-                }
-            }));
-
             // Change button text to indicate processing
             saveButton.innerText = 'กำลังบันทึก...';
             saveButton.disabled = true;
@@ -338,33 +376,30 @@
             saveButton.classList.add('hide-for-capture');
             document.getElementById('colonelImage').style.display = 'none';
 
-            // Wait for all promises to resolve before taking the screenshot
-            Promise.all(imagePromises).then(() => {
-                // Use html2canvas to capture the card div with cross-origin support
-                html2canvas(cardElement, {
-                    useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: null, // Transparent background
-                    scale: 2 // Increase scale for better resolution
-                }).then(canvas => {
-                    // Create a temporary link element
-                    const link = document.createElement('a');
-                    // Set the download filename
-                    link.download = 'การ์ดอวยพร-โมบาย.png';
-                    // Set the link's href to the canvas data URL
-                    link.href = canvas.toDataURL('image/png');
-                    
-                    // Programmatically click the link to trigger the download
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    // Restore button state and colonel image
-                    saveButton.innerText = 'บันทึกการ์ด';
-                    saveButton.disabled = false;
-                    saveButton.classList.remove('hide-for-capture');
-                    document.getElementById('colonelImage').style.display = '';
-                });
+            // Use html2canvas to capture the card div with cross-origin support
+            html2canvas(cardElement, {
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null, // Transparent background
+                scale: 2 // Increase scale for better resolution
+            }).then(canvas => {
+                // Create a temporary link element
+                const link = document.createElement('a');
+                // Set the download filename
+                link.download = 'การ์ดอวยพร-โมบาย.png';
+                // Set the link's href to the canvas data URL
+                link.href = canvas.toDataURL('image/png');
+                
+                // Programmatically click the link to trigger the download
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Restore button state and colonel image
+                saveButton.innerText = 'บันทึกการ์ด';
+                saveButton.disabled = false;
+                saveButton.classList.remove('hide-for-capture');
+                document.getElementById('colonelImage').style.display = '';
             });
         });
     </script>
