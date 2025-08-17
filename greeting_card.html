@@ -117,7 +117,7 @@
         h1 {
             color: #c000ff;
             margin-bottom: 20px;
-            font-size: 2.5rem;
+            font-size: 3rem;
             text-shadow: none;
         }
         .birthday-girl-photo {
@@ -163,11 +163,42 @@
             cursor: pointer;
             border: none;
             font-family: 'Kanit', sans-serif;
+            margin-bottom: 10px; /* Added spacing */
         }
         .save-button:hover {
             background-color: #6a0dad;
             transform: translateY(-2px);
         }
+        /* New CSS for social share buttons */
+        .social-share-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .social-share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Added background for the images */
+            overflow: hidden; /* Hide parts of image that go outside the circle */
+        }
+        .social-share-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        /* NEW CODE: CSS for the image icons */
+        .social-share-btn img {
+            width: 100%;
+            height: auto;
+        }
+        
         /* New CSS for loading message - It's always hidden */
         .loading-message {
             margin-top: 15px;
@@ -203,7 +234,7 @@
                 font-size: 2rem;
             }
             .wish-text {
-                font-size: 1rem;
+                font-size: 1.2rem;
                 max-height: 150px;
             }
             .birthday-girl-photo {
@@ -221,7 +252,7 @@
         /* NEW CODE: Added a media query to reduce font size for wishes and sender on mobile */
         @media (max-width: 600px) {
             .wish-text, .sender {
-                font-size: 0.8rem; /* Adjust this value to your liking, 1rem is 16px */
+                font-size: 1rem; /* Adjust this value to your liking, 1rem is 16px */
             }
         }
     </style>
@@ -246,6 +277,18 @@
         <div class="button-container">
             <button id="saveButton" class="save-button">บันทึกการ์ดอวยพร</button>
             <div id="loadingMessage" class="loading-message">กำลังบันทึก...</div>
+        </div>
+        
+        <!-- NEW CODE: Container for social sharing buttons with image logos -->
+        <div class="social-share-container" id="socialShareContainer">
+            <!-- Facebook Share Button -->
+            <a href="#" class="social-share-btn facebook" id="facebookShareBtn" target="_blank">
+                <img src="https://mfc-hbd.vercel.app/facebooklogo.webp" alt="Facebook logo">
+            </a>
+            <!-- X (Twitter) Share Button -->
+            <a href="#" class="social-share-btn x" id="xShareBtn" target="_blank">
+                <img src="https://mfc-hbd.vercel.app/xlogo.webp" alt="X (Twitter) logo">
+            </a>
         </div>
     </div>
 
@@ -394,6 +437,25 @@
                         greetingCard.classList.remove('no-animation');
                     });
             });
+
+            // NEW CODE: Function to handle social sharing with updated message
+            function setupSocialSharing() {
+                // อัปเดตข้อความสำหรับโพสต์
+                const shareMessage = "🍗 มาร่วมกันออเดอร์สั่งความสุขให้โมบาย ! #MobileHatoBito #MFC_HBD\n\nออเดอร์ได้แล้วที่นี่เลย 👉 https://mfc-hbd.vercel.app/";
+                const encodedMessage = encodeURIComponent(shareMessage);
+                const currentUrl = encodeURIComponent(window.location.href);
+
+                const facebookShareBtn = document.getElementById('facebookShareBtn');
+                const xShareBtn = document.getElementById('xShareBtn');
+
+                // Facebook Share URL - ใช้ 'quote' เพื่อกำหนดข้อความ
+                facebookShareBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}&quote=${encodedMessage}`;
+
+                // X (Twitter) Share URL - ใช้ 'text' เพื่อกำหนดข้อความ
+                xShareBtn.href = `https://twitter.com/intent/tweet?text=${encodedMessage}`;
+            }
+
+            setupSocialSharing();
         });
     </script>
 </body>
