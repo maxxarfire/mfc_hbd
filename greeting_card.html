@@ -139,6 +139,8 @@
             max-height: 200px;
             overflow-y: auto;
             padding-right: 10px;
+            /* NEW CODE: Added for word wrapping in Thai */
+            word-break: break-word; 
         }
         .sender {
             font-style: italic;
@@ -373,7 +375,7 @@
                         img.onload = () => resolve(img);
                         img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
                         img.src = url;
-                        img.crossOrigin = 'anonymous'; 
+                        img.crossOrigin = 'anonymous';
                     });
                 });
                 return Promise.all(promises);
