@@ -318,18 +318,35 @@
         document.getElementById('saveCardBtn').addEventListener('click', () => {
             const saveButton = document.getElementById('saveCardBtn');
             const cardElement = document.getElementById('greetingCard');
-            const colonelImage = document.getElementById('colonelImage');
+            
+            // Wait for all images within the card to be loaded.
+            const images = cardElement.querySelectorAll('img');
+            const imagePromises = Array.from(images).map(img => new Promise((resolve) => {
+                if (img.complete) {
+                    resolve();
+                } else {
+                    img.onload = resolve;
+                    img.onerror = resolve; // Resolve even on error to prevent hanging
+                }
+            }));
 
-            // Temporarily hide elements that shouldn't be in the screenshot
+            // Change button text to indicate processing
+            saveButton.innerText = 'กำลังบันทึก...';
+            saveButton.disabled = true;
+
+            // Hide the button and floating colonel image before capture
             saveButton.classList.add('hide-for-capture');
-            colonelImage.style.display = 'none';
+            document.getElementById('colonelImage').style.display = 'none';
 
-            // Wait for all images to load before capturing
-            Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => {
-                img.onload = img.onerror = resolve;
-            }))).then(() => {
-                // html2canvas options to handle cross-origin images
-                html2canvas(cardElement, { useCORS: true }).then(canvas => {
+            // Wait for all promises to resolve before taking the screenshot
+            Promise.all(imagePromises).then(() => {
+                // Use html2canvas to capture the card div with cross-origin support
+                html2canvas(cardElement, {
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null, // Transparent background
+                    scale: 2 // Increase scale for better resolution
+                }).then(canvas => {
                     // Create a temporary link element
                     const link = document.createElement('a');
                     // Set the download filename
@@ -342,9 +359,11 @@
                     link.click();
                     document.body.removeChild(link);
                     
-                    // Restore the button's and Colonel's visibility
+                    // Restore button state and colonel image
+                    saveButton.innerText = 'บันทึกการ์ด';
+                    saveButton.disabled = false;
                     saveButton.classList.remove('hide-for-capture');
-                    colonelImage.style.display = '';
+                    document.getElementById('colonelImage').style.display = '';
                 });
             });
         });
