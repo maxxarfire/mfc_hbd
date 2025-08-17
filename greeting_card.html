@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+    <!-- นำเข้าไลบรารี html2canvas สำหรับการบันทึกหน้าจอ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* CSS ที่ปรับปรุงใหม่เพื่อบังคับให้เต็มหน้าจอ */
         html, body {
@@ -112,7 +114,7 @@
             margin: 20px;
             max-height: 90vh;
             overflow-y: auto;
-            background-image: url('https://mfc-hbd.vercel.app/card_bg1.jpg');
+            /* แก้ไข: ย้ายการตั้งค่าพื้นหลังมาเป็นส่วนหนึ่งของโค้ด HTML เพื่อให้ html2canvas ประมวลผลได้ */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -157,18 +159,20 @@
         .button-container {
             margin-top: 30px;
         }
-        .history-button {
+        .save-button {
             display: inline-block;
             padding: 12px 25px;
             font-size: 1.1rem;
             color: white;
             background-color: #8a2be2;
+            border: none;
             border-radius: 50px;
             text-decoration: none;
+            cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .history-button:hover {
+        .save-button:hover {
             background-color: #6a0dad;
             transform: translateY(-2px);
         }
@@ -230,9 +234,11 @@
         <span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <div class="full-screen-container">
+    <!-- เพิ่ม id="card-to-capture" เพื่อให้ JavaScript รู้ว่าจะแคปเจอร์ส่วนไหน -->
+    <div class="full-screen-container" id="card-to-capture">
         <img src="https://mfc-hbd.vercel.app/colonel_mobile_stand1.gif" class="random-colonel-image" id="colonelImage">
-        <div class="greeting-card">
+        <!-- แก้ไข: เพิ่มสไตล์พื้นหลังของการ์ดเป็น inline style เพื่อให้ html2canvas สามารถประมวลผลได้ -->
+        <div class="greeting-card" style="background-image: url('https://mfc-hbd.vercel.app/card_bg1.jpg');">
             <span class="emoji-decoration left">🎉</span>
             <span class="emoji-decoration right">🎁</span>
             <img src="https://mfc-hbd.vercel.app/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo">
@@ -241,7 +247,7 @@
             <p class="sender" id="senderDisplay"></p>
             
             <div class="button-container">
-                <a href="history.html" class="history-button">ดูประวัติคำอวยพรทั้งหมด</a>
+                <button id="saveButton" class="save-button">บันทึกการ์ด</button>
             </div>
         </div>
     </div>
@@ -334,6 +340,34 @@
                     startRandomMovement();
                 }, 2000);
             }
+
+            // เพิ่มโค้ดสำหรับปุ่ม "บันทึกการ์ด"
+            const saveButton = document.getElementById('saveButton');
+            const cardToCapture = document.getElementById('card-to-capture');
+            const greetingCard = document.querySelector('.greeting-card');
+            
+            // ใช้ html2canvas กับตัวเลือก useCORS เพื่ออนุญาตการโหลดรูปภาพจากโดเมนภายนอก
+            saveButton.addEventListener('click', () => {
+                // ซ่อนปุ่ม "บันทึกการ์ด" และภาพ Colonel ก่อนทำการแคปเจอร์
+                saveButton.style.display = 'none';
+                colonelImage.style.display = 'none';
+
+                html2canvas(greetingCard, {
+                    // ปรับขนาด scale เพื่อให้ภาพที่ได้มีความละเอียดสูงขึ้น
+                    scale: 2,
+                    useCORS: true // สำคัญมาก: อนุญาตให้โหลดรูปภาพจากโดเมนอื่น
+                }).then(canvas => {
+                    // สร้างลิงก์ชั่วคราวเพื่อดาวน์โหลดรูปภาพ
+                    const link = document.createElement('a');
+                    link.download = 'การ์ดอวยพร.jpg';
+                    link.href = canvas.toDataURL('image/jpeg', 1.0); // บันทึกเป็น JPEG
+                    link.click();
+
+                    // แสดงปุ่มและภาพ Colonel กลับมาอีกครั้ง
+                    saveButton.style.display = 'inline-block';
+                    colonelImage.style.display = 'block';
+                });
+            });
         });
     </script>
 </body>
