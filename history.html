@@ -113,13 +113,15 @@
                 
                 if (data && data.length > 0) {
                     historyList.innerHTML = ''; // ลบข้อความกำลังโหลดออก
-                    data.forEach(item => {
+                    
+                    // ----- จุดที่แก้ไข -----
+                    // เพิ่ม .reverse() เพื่อสลับลำดับข้อมูลให้ล่าสุดอยู่บนสุด
+                    data.reverse().forEach(item => {
                         const [timestamp, wish, sender, avatarUrl] = item;
                         const entryDiv = document.createElement('div');
                         entryDiv.className = 'wish-entry';
 
                         // ใช้รูป Avatar แบบ Placeholder ถ้าไม่มี URL
-                        // แก้ไข URL รูปภาพจากเดิมไปใช้ URL ใหม่ที่คุณให้มา
                         const finalAvatarUrl = avatarUrl && avatarUrl.trim() !== ''
                             ? avatarUrl
                             : 'https://mfc-hbd.vercel.app/mfc_logo1-1.webp';
