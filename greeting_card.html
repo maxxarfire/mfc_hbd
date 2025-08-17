@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
-    <!-- นำเข้าไลบรารี html2canvas สำหรับการบันทึกหน้าจอ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* CSS ที่ปรับปรุงใหม่เพื่อบังคับให้เต็มหน้าจอ */
@@ -225,29 +224,73 @@
             .emoji-decoration.left { top: 10px; left: 10px; }
             .emoji-decoration.right { bottom: 10px; right: 10px; }
         }
+
+        /* ส่วนเพิ่มเติม: CSS สำหรับ Loader */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10000;
+            font-size: 1.5rem;
+            color: #8a2be2;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #8a2be2;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ----- CSS ที่เพิ่มเข้ามา ----- */
+        /* Class สำหรับหยุด Animation ชั่วคราวก่อน Capture ภาพ */
+        .no-animation, .no-animation * {
+            animation: none !important;
+            transition: none !important;
+        }
+        /* ----- จบส่วนที่เพิ่มเข้ามา ----- */
+
     </style>
 </head>
 <body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+        <p style="margin-top: 20px;">กำลังโหลด... โปรดรอสักครู่</p>
+    </div>
+
     <div class="balloon-background">
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <!-- เพิ่ม id="card-to-capture" เพื่อให้ JavaScript รู้ว่าจะแคปเจอร์ส่วนไหน -->
-    <div class="full-screen-container" id="card-to-capture">
+    <div class="full-screen-container" id="card-to-capture" style="opacity: 0; transition: opacity 0.5s ease;">
         <img src="https://mfc-hbd.vercel.app/colonel_mobile_stand1.gif" class="random-colonel-image" id="colonelImage">
-        <!-- แก้ไข: เพิ่มสไตล์พื้นหลังของการ์ดเป็น inline style เพื่อให้ html2canvas สามารถประมวลผลได้ -->
-        <div class="greeting-card" style="background-image: url('https://mfc-hbd.vercel.app/card_bg1.jpg');">
+        <div class="greeting-card" id="greetingCard" style="background-image: url('https://mfc-hbd.vercel.app/card_bg1.jpg');">
             <span class="emoji-decoration left">🎉</span>
             <span class="emoji-decoration right">🎁</span>
-            <img src="https://mfc-hbd.vercel.app/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo">
+            <img src="https://mfc-hbd.vercel.app/mobile02.webp" alt="รูปภาพโมบาย" class="birthday-girl-photo" id="birthdayGirlPhoto">
             <h1>สุขสันต์วันเกิดนะ โมบาย!</h1>
             <p class="wish-text" id="wishDisplay"></p>
             <p class="sender" id="senderDisplay"></p>
             
             <div class="button-container">
-                <button id="saveButton" class="save-button">บันทึกการ์ด</button>
+                <button id="saveButton" class="save-button" disabled>บันทึกการ์ด</button>
             </div>
         </div>
     </div>
@@ -282,10 +325,60 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const colonelImage = document.getElementById('colonelImage');
+            const birthdayGirlPhoto = document.getElementById('birthdayGirlPhoto');
+            const greetingCard = document.getElementById('greetingCard');
+            const saveButton = document.getElementById('saveButton');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const cardToCaptureContainer = document.getElementById('card-to-capture');
+            
             let randomIntervalId;
             const originalColonelSrc = "https://mfc-hbd.vercel.app/colonel_mobile_stand1.gif";
             const fullScreenColonelSrc = "https://mfc-hbd.vercel.app/colonel_mobile_stand_gif2.gif";
 
+            // ฟังก์ชันตรวจสอบการโหลดรูปภาพ
+            function loadImages(imageUrl) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => resolve();
+                    img.onerror = () => reject(new Error(`Failed to load image at ${imageUrl}`));
+                    img.src = imageUrl;
+                });
+            }
+
+            // ฟังก์ชันเริ่มการทำงานเมื่อรูปภาพทั้งหมดโหลดเสร็จ
+            async function initializeApp() {
+                try {
+                    // รอให้รูปภาพทั้งหมดโหลดเสร็จ
+                    await Promise.all([
+                        loadImages(birthdayGirlPhoto.src),
+                        loadImages(colonelImage.src),
+                        loadImages("https://mfc-hbd.vercel.app/card_bg1.jpg")
+                    ]);
+
+                    // ซ่อนหน้าจอโหลดและแสดงการ์ด
+                    loadingOverlay.style.opacity = '0';
+                    loadingOverlay.addEventListener('transitionend', () => {
+                        loadingOverlay.style.display = 'none';
+                    });
+                    cardToCaptureContainer.style.opacity = '1';
+
+                    // เปิดใช้งานปุ่มบันทึก
+                    saveButton.disabled = false;
+                    
+                    // เริ่มการเคลื่อนไหวของ Colonel
+                    startRandomMovement();
+                    colonelImage.addEventListener('click', handleColonelClick);
+                    colonelImage.addEventListener('touchstart', handleColonelClick);
+
+                } catch (error) {
+                    console.error("Error loading images:", error);
+                    // ในกรณีที่โหลดรูปภาพไม่สำเร็จ ให้แสดงข้อความเตือน
+                    loadingOverlay.style.display = 'none';
+                    cardToCaptureContainer.style.opacity = '1';
+                    // สามารถเพิ่มข้อความแจ้งเตือนผู้ใช้ได้ที่นี่
+                }
+            }
+            
             function setRandomPositionAndSize(imgElement) {
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
@@ -308,20 +401,11 @@
 
             function startRandomMovement() {
                 colonelImage.src = originalColonelSrc;
-                if (colonelImage.complete) {
-                    setRandomPositionAndSize(colonelImage);
-                } else {
-                    colonelImage.onload = () => setRandomPositionAndSize(colonelImage);
-                }
+                setRandomPositionAndSize(colonelImage);
                 randomIntervalId = setInterval(() => {
                     setRandomPositionAndSize(colonelImage);
                 }, 1000);
             }
-
-            startRandomMovement();
-
-            colonelImage.addEventListener('click', handleColonelClick);
-            colonelImage.addEventListener('touchstart', handleColonelClick);
 
             function handleColonelClick(event) {
                 event.preventDefault();
@@ -341,33 +425,48 @@
                 }, 2000);
             }
 
+            // ----- ส่วนที่แก้ไข เริ่มต้น -----
             // เพิ่มโค้ดสำหรับปุ่ม "บันทึกการ์ด"
-            const saveButton = document.getElementById('saveButton');
-            const cardToCapture = document.getElementById('card-to-capture');
-            const greetingCard = document.querySelector('.greeting-card');
-            
-            // ใช้ html2canvas กับตัวเลือก useCORS เพื่ออนุญาตการโหลดรูปภาพจากโดเมนภายนอก
             saveButton.addEventListener('click', () => {
                 // ซ่อนปุ่ม "บันทึกการ์ด" และภาพ Colonel ก่อนทำการแคปเจอร์
                 saveButton.style.display = 'none';
                 colonelImage.style.display = 'none';
 
-                html2canvas(greetingCard, {
-                    // ปรับขนาด scale เพื่อให้ภาพที่ได้มีความละเอียดสูงขึ้น
-                    scale: 2,
-                    useCORS: true // สำคัญมาก: อนุญาตให้โหลดรูปภาพจากโดเมนอื่น
-                }).then(canvas => {
-                    // สร้างลิงก์ชั่วคราวเพื่อดาวน์โหลดรูปภาพ
-                    const link = document.createElement('a');
-                    link.download = 'การ์ดอวยพร.jpg';
-                    link.href = canvas.toDataURL('image/jpeg', 1.0); // บันทึกเป็น JPEG
-                    link.click();
+                // เพิ่ม class เพื่อหยุด animation ชั่วคราว
+                greetingCard.classList.add('no-animation');
 
-                    // แสดงปุ่มและภาพ Colonel กลับมาอีกครั้ง
-                    saveButton.style.display = 'inline-block';
-                    colonelImage.style.display = 'block';
-                });
+                // ใช้ setTimeout เพื่อให้แน่ใจว่า DOM อัปเดตเสร็จก่อนที่จะทำการแคปเจอร์
+                // และเพิ่มดีเลย์เป็น 300ms เพื่อความแน่นอน
+                setTimeout(() => {
+                    html2canvas(greetingCard, {
+                        scale: 2,
+                        useCORS: true // สำคัญมาก: อนุญาตให้โหลดรูปภาพจากโดเมนอื่น
+                    }).then(canvas => {
+                        // สร้างลิงก์ชั่วคราวเพื่อดาวน์โหลดรูปภาพ
+                        const link = document.createElement('a');
+                        link.download = 'การ์ดอวยพร.jpg';
+                        link.href = canvas.toDataURL('image/jpeg', 1.0);
+                        link.click();
+
+                        // แสดงปุ่มและภาพ Colonel กลับมาอีกครั้ง
+                        saveButton.style.display = 'inline-block';
+                        colonelImage.style.display = 'block';
+
+                        // นำ class ที่ใช้หยุด animation ออก เพื่อให้ทุกอย่างกลับมาเคลื่อนไหวเหมือนเดิม
+                        greetingCard.classList.remove('no-animation');
+                    }).catch(err => {
+                        // กรณีเกิดข้อผิดพลาด ให้แสดงทุกอย่างกลับมาเหมือนเดิม
+                        console.error('oops, something went wrong!', err);
+                        saveButton.style.display = 'inline-block';
+                        colonelImage.style.display = 'block';
+                        greetingCard.classList.remove('no-animation');
+                    });
+                }, 300); // ดีเลย์ 300ms เพื่อให้ Browser render ทัน
             });
+            // ----- ส่วนที่แก้ไข สิ้นสุด -----
+
+            // เริ่มต้นการทำงานของแอป
+            initializeApp();
         });
     </script>
 </body>
